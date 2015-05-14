@@ -26,11 +26,7 @@ FILLING SOURCE
 
 
   1. how I'll access it
-    should be able to traverse by period end
-    should be able to traverse by IQID
-
-    e.g.:
-
+    
     data.periods.each do
       ...
         stocks = stocks.where(period: period)
@@ -41,22 +37,6 @@ FILLING SOURCE
     end
 
 
-class Data
-    Data.find_stocks(period: '12/31/2006') => array of stocks for this period
-    Data.find_stocks(id: 'ID1234') => array of data points for this stock
-    Data.find_stock(period: '12/31/2006', id: 'ID1234' ) => stock        # stock AT PARTICULAR PERIOD
-
-    
-
-    # no need to create instances of stock - it's just data => hash will do
-
-    # no need to create an object for every stock for every period
-    # Stock objects created out of CSV only on request
-    # Stock.find will 
-      # find attributes in the source CSV
-      # call initialize with attribute params - to create an instance of Stock object
-      # has to be efficient - if multiple objects, only read CSV once
-end
 
 
 class Period
@@ -194,3 +174,37 @@ porfolio
 MODULARITY
 
 trading is separate from picking => can use trading module for different models
+
+
+
+
+
+
+
+
+ARCHIVE
+
+
+
+class Data  (previously planned implementation w/o db)
+    Data.find_stocks(period: '12/31/2006') => array of stocks for this period
+    Data.find_stocks(id: 'ID1234') => array of data points for this stock
+    Data.find_stock(period: '12/31/2006', id: 'ID1234' ) => stock        # stock AT PARTICULAR PERIOD
+
+    
+
+    # no need to create instances of stock - it's just data => hash will do
+
+    # no need to create an object for every stock for every period
+    # Stock objects created out of CSV only on request
+    # Stock.find will 
+      # find attributes in the source CSV
+      # call initialize with attribute params - to create an instance of Stock object
+      # has to be efficient - if multiple objects, only read CSV once
+end
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 Fabricator(:hist_data) do
-  cid { 'F0001' }
+  cid { Faker::Company.ein }
   period {"2012-12-31"}
   market_cap { 500.1 }
   roc { 0.1 }
