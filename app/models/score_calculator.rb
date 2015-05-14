@@ -2,10 +2,9 @@ class ScoreCalculator
   attr_accessor :stocks
 
   def initialize(args)
-    array = HistData.where("period = ? AND market_cap >= ? AND market_cap <= ? AND price > 0 AND delisted IS NULL", args[:period], args[:market_cap_floor].present? ? args[:market_cap_floor] : 50, args[:market_cap_ceiling].present? ? args[:market_cap_ceiling] : 2000000)
+    array = PricePoint.where("period = ? AND market_cap >= ? AND market_cap <= ? AND price > 0 AND delisted = FALSE", args[:period], args[:market_cap_floor] || 50, args[:market_cap_ceiling] || 2000000)
     @stocks = []
     array.each { |element| @stocks << element.attributes }
-    @stocks
   end
 
   def assign_scores
@@ -17,14 +16,15 @@ class ScoreCalculator
   private
 
   def assign_earnings_yield_scores
-    @stocks.sort_by {|h| -h["earnings_yield"]}.each_with_index{|v, i| v["ey_score"] = i + 1 }
+    @stocks.sort_by { |h| -h["earnings_yield"] }.each_with_index{ |v, i| v["ey_score"] = i + 1 }
   end
 
   def assign_roc_scores
-    @stocks.sort_by {|h| -h["roc"]}.each_with_index{|v, i| v["roc_score"] = i + 1 }
+    @stocks.sort_by { |h| -h["roc"] }.each_with_index{ |v, i| v["roc_score"] = i + 1 }
   end
 
   def assign_total_scores
     @stocks.each { |stock| stock["total_score"] = stock["roc_score"] + stock["ey_score"] }
+    @stocks.sort_by! { |h| h["total_score"] }
   end
 end

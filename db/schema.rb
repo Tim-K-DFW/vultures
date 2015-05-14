@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150513222127) do
+ActiveRecord::Schema.define(version: 20150514130443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20150513222127) do
     t.string "ticker"
   end
 
-  create_table "hist_data", force: true do |t|
+  create_table "price_points", force: true do |t|
     t.string  "cid"
     t.date    "period"
     t.date    "delisting_date"

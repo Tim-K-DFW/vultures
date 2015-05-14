@@ -9,8 +9,8 @@
 require 'csv'
 require 'date'
 
-HistData.destroy_all
-Companies.destroy_all
+PricePoint.destroy_all
+Company.destroy_all
 
 start_time = Time.now
 counter = 0
@@ -25,13 +25,14 @@ CSV.foreach("db/data - annual since 1993.csv", encoding: 'ISO-8859-1') do |row|
     net_ppe = row[i * 6 + 7].to_f
     nwc = row[i * 6 + 8].to_f
 
-    new_entry = HistData.create(
+    new_entry = PricePoint.create(
       cid: row[2],
       period: Date.strptime(periods[i], '%m/%d/%Y'),
       market_cap: row[i * 6 + 4],
       earnings_yield: ebit > 0 ? ebit / ev : 0,
       roc: ebit > 0 ? ebit / (net_ppe + nwc) : 0,
-      price: row[i * 6 + 9]
+      price: row[i * 6 + 9],
+      delisted: false
     )
     delisted_check = /(\d+\/\d+\/\d+)/.match(row[i * 6 + 9])
     if delisted_check
@@ -41,7 +42,7 @@ CSV.foreach("db/data - annual since 1993.csv", encoding: 'ISO-8859-1') do |row|
       )
     end
   end
-  Companies.create(name: row[0], cid: row[2], ticker: row[3])
+  Company.create(name: row[0], cid: row[2], ticker: row[3])
   counter += 1
   printf "%-80s %-25s %-22s\n", "Added #{row[0]}", "#{counter} companies total", "#{(Time.now - start_time).round(2)} seconds spent"
 end

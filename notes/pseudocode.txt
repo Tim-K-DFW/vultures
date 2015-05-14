@@ -25,39 +25,12 @@ FILLING SOURCE
 
 
 
-  1. how I'll access it
-    
-    data.periods.each do
-      ...
-        stocks = stocks.where(period: period)
-        stocks.all do
-
-        end
-      ...
-    end
-
-
-
-
-class Period
-  
-  # no need for instance
-  # only class method that will return array of strings representing periods
-  # then it belongs with data
-
-  period.
-
-
-
-end
-    
-
 ENGINE
 
 
 for each year in data set (or as specified):
   
-  1. calculate rankings
+  1. calculate rankings  DONE
     filter out stocks with closing price of 0
     filter out stocks with last pricing date earlier than current date
     filter out stocks outside of market cap size (floor and bottom)
@@ -144,22 +117,26 @@ for each year in data set (or as specified):
 THINGS TO KEEP IN MIND/ADD
 
 
-
 trading part - keep track of holding period (for tax purposes)
 viewing results -- add comparison to S&P500 and Russell 2000
 logging out progress, steps and decisions; also running balance
 
 
 
-
-
 CLASSES
 
-current_portfolio
+portfolio
 stock
 ranking
 target_portfolio
 
+
+
+
+CLASS POTFOLIO
+  #balance(date)
+
+END
 
 
 METHODS

@@ -1,6 +1,6 @@
-class CreateHistData < ActiveRecord::Migration
+class CreatePricePoints < ActiveRecord::Migration
   def change
-    create_table :hist_data do |t|
+    create_table :price_points do |t|
       t.string :cid
       t.date :period, :delisting_date
       t.float :market_cap, :earnings_yield, :roc, :price
