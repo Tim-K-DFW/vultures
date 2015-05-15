@@ -135,6 +135,23 @@ target_portfolio
 
 CLASS POTFOLIO
   #balance(date)
+  #position_count
+  #positions
+
+END
+
+CLASS TARGET_PORTFOLIO (could be related to Porfolio)
+  #positions => will return array of positions (hashes)
+  #cost => total cost of positions
+
+
+  keys of each position hash:
+    cid
+    score
+    price
+    share_count
+    cost
+    weight
 
 END
 
@@ -153,6 +170,10 @@ MODULARITY
 trading is separate from picking => can use trading module for different models
 
 
+
+SPECS
+
+1. Cannot Fabricate attributes which are not part of ActiveRecord model
 
 
 
