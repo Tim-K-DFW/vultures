@@ -3,10 +3,10 @@ require 'spec_helper'
 describe TargetPortfolio do
   let(:current_portfolio) { double(balance: 1000000, position_count: 5) }
   let(:current_market_data) { fabricate_market_data }
+  let(:target) { TargetPortfolio.new(current_portfolio: current_portfolio, current_market_data: current_market_data) }
 
   describe '#cost' do
     it 'returns correct total cost of all positions' do
-      target = TargetPortfolio.new(current_portfolio: current_portfolio, market_data: current_market_data)
       apple = { "cid" => 'aapl', "cost" => 100 }
       msft = { "cid" => 'msft', "cost" => 300 }
       target.positions << apple
@@ -16,7 +16,7 @@ describe TargetPortfolio do
   end
 
   describe '#build_initial_positions' do
-    let(:target) { TargetPortfolio.new(current_portfolio: current_portfolio, current_market_data: current_market_data) }
+    
     before { target.build_initial_positions }
 
     it 'contains assigned number of positions' do
@@ -47,8 +47,6 @@ describe TargetPortfolio do
   end
 
   describe '#spend_balance' do
-    let(:target) { TargetPortfolio.new(current_portfolio: current_portfolio, current_market_data: current_market_data) }
-
     before do
       target.build_initial_positions
       target.spend_balance
@@ -60,6 +58,15 @@ describe TargetPortfolio do
 
     it 'has total cost of less than or equal to portfolio balance' do
       expect(target.cost).to be <= current_portfolio.balance
+    end
+  end
+
+  describe '#hold_list' do
+    it 'returns an array of IDs only for all positions' do
+      target.build_initial_positions
+      target.spend_balance
+      binding.pry
+      expect(target.hold_list).to match_array(['aapl', 'msft', 'xom', 'bbry', 'mhr'])
     end
   end
 end

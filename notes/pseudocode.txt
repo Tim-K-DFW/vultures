@@ -56,7 +56,7 @@ for each year in data set (or as specified):
         total rating = EY rating + ROC rating
       end
 
-  2. build target portfolio based on rankings
+  2. build target portfolio based on rankings  DONE
 
     balance = market_value_of_porfolio
     allocation_per_stock = market_value_of_portfolio / 30
@@ -80,7 +80,7 @@ for each year in data set (or as specified):
 
       # can't sell everything right away, will sell unneeded first
 
-      find all stocks from existing portoflio which are not in target
+      find all stocks from existing portoflio which are not in target => array (stocks_to_sell)
       for each stock found
         sell it
       end
@@ -136,7 +136,10 @@ target_portfolio
 CLASS POTFOLIO
   #balance(date)
   #position_count
-  #positions
+  #positions(date)
+
+  #buy(stock, shares)
+  #sell(stock, shares)
 
 END
 

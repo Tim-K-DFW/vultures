@@ -21,6 +21,10 @@ class TargetPortfolio
     @current_portfolio.balance - cost
   end
 
+  def hold_list
+    positions.map { |v| v["cid"] }
+  end
+
   # private
 
   def build_initial_positions
