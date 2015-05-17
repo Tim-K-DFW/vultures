@@ -7,16 +7,17 @@ class Portfolio
     @initial_balance = args[:initial_balance]
     @periods = {}
     @periods[args[:start_date]] = {}
-    @periods[args[:start_date]]["positions"] = []
-    @periods[args[:start_date]]["cash"] = @initial_balance
+    @periods[args[:start_date]][:positions] = {}
+    @periods[args[:start_date]][:cash] = @initial_balance
   end
 
   def as_of(date)
     result = {}
-    result["delisted_positions"] = delisted_positions(date)
-    result["positions"] = periods[date]["positions"] - result["delisted_positions"]
-    result["cash"] = periods[date]["cash"] + delisting_proceeds(result["delisted_positions"], date)
-    result["market_value"] = positions_value(result["positions"], date) + result["cash"]
+    result[:delisted_positions] = delisted_positions(date)
+    result[:positions] = periods[date][:positions].dup
+    result[:positions].delete_if{|k,v| result[:delisted_positions].keys.include?(k)}
+    result[:cash] = periods[date][:cash] + delisting_proceeds(result[:delisted_positions], date)
+    result[:market_value] = positions_value(result[:positions], date) + result[:cash]
     result
   end
 
@@ -59,12 +60,12 @@ class Portfolio
   end
 
   def delisted_positions(date)
-    result = []
-    periods[date]["positions"].each do |position|
-      price_point = PricePoint.where(period: date, cid: position["cid"]).first
+    result = {}
+    periods[date][:positions].each do |cid, position|
+      price_point = PricePoint.where(period: date, cid: cid).first
       if price_point["delisted"] == true
-        position["delisting_date"] = price_point["delisting_date"]
-        result << position
+        position[:delisting_date] = price_point["delisting_date"]
+        result[cid] = position
       end
     end
     result
@@ -72,16 +73,16 @@ class Portfolio
 
   def delisting_proceeds(delisted_positions, date)
     result = 0
-    delisted_positions.each do |position|
-      result += (position["share_count"] * PricePoint.where(period: date, cid: position["cid"]).first.price).round(2)
+    delisted_positions.each do |cid, position|
+      result += (position[:share_count] * PricePoint.where(period: date, cid: cid).first.price).round(2)
     end
     result
   end
 
   def positions_value(survived_positions, date)
     result = 0
-    survived_positions.each do |position|
-      result += (position["share_count"] * PricePoint.where(period: date, cid: position["cid"]).first.price).round(2)
+    survived_positions.each do |cid, position|
+      result += (position[:share_count] * PricePoint.where(period: date, cid: cid).first.price).round(2)
     end
     result
   end

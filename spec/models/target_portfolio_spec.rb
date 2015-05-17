@@ -7,10 +7,8 @@ describe TargetPortfolio do
 
   describe '#cost' do
     it 'returns correct total cost of all positions' do
-      apple = { "cid" => 'aapl', "cost" => 100 }
-      msft = { "cid" => 'msft', "cost" => 300 }
-      target.positions << apple
-      target.positions << msft
+      target.positions[:appl] = { cost: 100 }
+      target.positions[:msft] = { cost: 300 }
       expect(target.cost).to eq(400)
     end
   end
@@ -25,20 +23,20 @@ describe TargetPortfolio do
 
     it 'has no stocks with score worse than the best score among non-included stocks' do
       excluded_stocks = []
-      current_market_data.each {|position| excluded_stocks << position unless target.positions.include?(position) }
+      current_market_data.each {|position| excluded_stocks << position unless target.positions.keys.include?(position["cid"].to_sym) }
       best_score_among_excluded = excluded_stocks.map{ |v| v["total_score"] }.min
-      worst_score_among_target = target.positions.map{ |v| v["total_score"] }.max
+      worst_score_among_target = target.positions.map{ |k, v| v[:total_score] }.max
       expect(worst_score_among_target).to be <= best_score_among_excluded
     end
 
     it 'has no single position with value over its proportion' do
       max_allocation_per_position = current_portfolio.balance / current_portfolio.position_count
-      target.positions.each { |pos| expect(pos["cost"]).to be <= max_allocation_per_position }
+      target.positions.each { |k, v| expect(v[:cost]).to be <= max_allocation_per_position }
     end
 
     it 'has the maximum possible number of shares for every position' do
       max_allocation_per_position = current_portfolio.balance / current_portfolio.position_count
-      target.positions.each { |pos| expect(pos["cost"] + pos["price"]).to be > max_allocation_per_position }
+      target.positions.each { |k, v| expect(v[:cost] + v[:price]).to be > max_allocation_per_position }
     end
 
     it 'has total cost of less than or equal to portfolio balance' do
@@ -53,7 +51,8 @@ describe TargetPortfolio do
     end
 
     it 'does not have enough balance to add a single share to any position' do
-      target.positions.each { |pos| expect(target.cost + pos["price"]).to be > current_portfolio.balance }
+      target
+      target.positions.each { |k, v| expect(target.cost + v[:price]).to be > current_portfolio.balance }
     end
 
     it 'has total cost of less than or equal to portfolio balance' do
@@ -65,8 +64,7 @@ describe TargetPortfolio do
     it 'returns an array of IDs only for all positions' do
       target.build_initial_positions
       target.spend_balance
-      binding.pry
-      expect(target.hold_list).to match_array(['aapl', 'msft', 'xom', 'bbry', 'mhr'])
+      expect(target.hold_list).to match_array([:aapl, :msft, :xom, :bbry, :mhr])
     end
   end
 end
