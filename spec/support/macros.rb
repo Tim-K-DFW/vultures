@@ -10,9 +10,9 @@ def fabricate_market_data
 end
 
 def fabricate_target_portfolio
-  {:aapl=>{:price=>11.0, :total_score=>15, :share_count=>18190, :cost=>200090.0},
+  {:aapl=>{:price=>11.0, :total_score=>15, :share_count=>50, :cost=>750},
   :bbry=>{:price=>14.87, :total_score=>17, :share_count=>13449, :cost=>199986.63},
-  :mhr=>{:price=>2.02, :total_score=>18, :share_count=>99011, :cost=>200002.22},
+  :mhr=>{:price=>2.02, :total_score=>18, :share_count=>8000, :cost=>200002.22},
   :xom=>{:price=>98.0, :total_score=>19, :share_count=>2040, :cost=>199920.0},
   :msft=>{:price=>0.57, :total_score=>22, :share_count=>350879, :cost=>200001.03}
   }
