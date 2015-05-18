@@ -14,20 +14,16 @@ describe Portfolio do
     it 'returns total market value under martket_value key' do
       expect(portfolio.as_of(today)[:market_value]).to eq(156881.77)
     end
+  end
 
-    it 'returns cash balance under cash_balance key' do
-      expect(portfolio.as_of(today)[:cash]).to eq(14000)
+  describe '#rebalance' do
+    it 'automatically removes hashes for delisted positions' do
+      portfolio.rebalance(target: target, date: today)
+      expect(portfolio.periods[today][:positions].keys).not_to include(:flo)
     end
 
-    it 'does not dislplay positions that were delisted' do
-      current_stock_list = portfolio.as_of(today)[:positions].keys
-      expect(current_stock_list).not_to include(:flo)
-    end
-
-    it 'returns all delisting information under delistings key' do
-       expect(portfolio.as_of(today)[:delisted_positions][:flo]).to be_present
-      end
-  end # #as_of
+    # rest is test in component methods
+  end
   
   describe '#sell' do
     it 'decreases share count by specified amount' do
@@ -118,14 +114,6 @@ describe Portfolio do
     end
   end
 
-  describe '#remove_delisted_positions' do
-    before { portfolio.remove_delisted_positions(today) }
-
-    it 'removes all delisted positions' do
-      expect(portfolio.periods[today][:positions].keys).not_to include(:flo)
-    end
-  end
-
   describe '#carry_forward' do
     before { portfolio.carry_forward(today) }
 
@@ -134,7 +122,7 @@ describe Portfolio do
     end
 
     it 'moves all existing positions to the next period' do
-      expect(portfolio.as_of('2013-12-31')[:positions]).to eq(portfolio.as_of(today)[:positions])
+      expect(portfolio.periods['2013-12-31'][:positions]).to eq(portfolio.periods[today][:positions])
     end
   end
 end
