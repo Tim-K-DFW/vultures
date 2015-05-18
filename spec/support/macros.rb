@@ -19,7 +19,7 @@ def fabricate_target_portfolio
 end
 
 def fabricate_portfolio(current_date)
-  portfolio = Portfolio.new(position_count: 5, initial_balance: 1000000, start_date: '12/31/2011')
+  portfolio = Portfolio.new(position_count: 5, initial_balance: 1000000, start_date: '2011-12-31')
   portfolio.periods[current_date] = {}
   portfolio.periods[current_date][:positions] = {
     aapl: { entry_price: 11.05, share_count: 100},
@@ -30,4 +30,15 @@ def fabricate_portfolio(current_date)
   }
   portfolio.periods[current_date][:cash] = 3000
   portfolio
+end
+
+def fabricate_price_points(date = nil)
+  period = date || '2012-12-31'
+  Fabricate(:price_point, cid: 'aapl', price: 15, period: period)
+  Fabricate(:price_point, cid: 'flo', price: 22, delisted: true, delisting_date: '2012-07-08', period: period)
+  Fabricate(:price_point, cid: 'mhr', price: 0.01, period: period)
+  Fabricate(:price_point, cid: 'nok', price: 157, period: period)
+  Fabricate(:price_point, cid: 'msft', price: 0.01, period: period)
+  Fabricate(:price_point, cid: 'bbry', price: 79.15, period: period)
+  Fabricate(:price_point, cid: 'xom', price: 7.15, period: period)
 end

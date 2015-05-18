@@ -2,72 +2,69 @@ require 'spec_helper'
 
 describe Portfolio do
   let(:target) { fabricate_target_portfolio }
-  let(:today) { '12/31/2012' }
+  let(:today) { '2012-12-31' }
   let(:portfolio) { fabricate_portfolio(today) }
 
   before do
-    Fabricate(:price_point, cid: 'aapl', price: 15)
-    Fabricate(:price_point, cid: 'flo', price: 22, delisted: true, delisting_date: '2012-07-08')
-    Fabricate(:price_point, cid: 'mhr', price: 0.01)
-    Fabricate(:price_point, cid: 'nok', price: 157)
-    Fabricate(:price_point, cid: 'msft', price: 0.01)
+    fabricate_price_points
+    fabricate_price_points('2013-12-31')
   end
 
   describe '#as_of' do
     it 'returns total market value under martket_value key' do
-      expect(portfolio.as_of('12/31/2012')[:market_value]).to eq(156881.77)
+      expect(portfolio.as_of(today)[:market_value]).to eq(156881.77)
     end
 
     it 'returns cash balance under cash_balance key' do
-      expect(portfolio.as_of('12/31/2012')[:cash]).to eq(14000)
+      expect(portfolio.as_of(today)[:cash]).to eq(14000)
     end
 
     it 'does not dislplay positions that were delisted' do
-      current_stock_list = portfolio.as_of('12/31/2012')[:positions].keys
+      current_stock_list = portfolio.as_of(today)[:positions].keys
       expect(current_stock_list).not_to include(:flo)
     end
 
     it 'returns all delisting information under delistings key' do
-       expect(portfolio.as_of('12/31/2012')[:delisted_positions][:flo]).to be_present
+       expect(portfolio.as_of(today)[:delisted_positions][:flo]).to be_present
       end
   end # #as_of
-
   
-  # describe '#buy'
-
-
   describe '#sell' do
     it 'decreases share count by specified amount' do
-      portfolio.sell(stock: :aapl, date: '12/31/2012', amount: 5)
-      expect(portfolio.as_of('12/31/2012')[:positions][:aapl][:share_count]).to eq(95)
+      portfolio.sell(stock: :aapl, date: today, amount: 5)
+      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(95)
     end
 
     it 'increases cash balance by correct amount' do
-      portfolio.sell(stock: :aapl, date: '12/31/2012', amount: 5)
-      expect(portfolio.as_of('12/31/2012')[:cash]).to eq(14075)
+      portfolio.sell(stock: :aapl, date: today, amount: 5)
+      expect(portfolio.as_of(today)[:cash]).to eq(14075)
     end
 
-    it 'undstands amount of "all" ' do
-      portfolio.sell(stock: :aapl, date: '12/31/2012', amount: :all)
-      expect(portfolio.as_of('12/31/2012')[:positions][:aapl][:share_count]).to eq(0)
+    it 'understands amount of "all" ' do
+      portfolio.sell(stock: :aapl, date: today, amount: :all)
+      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(0)
     end
 
     it 'does not sell more than current share count' do
-      portfolio.sell(stock: :aapl, date: '12/31/2012', amount: 1000)
-      expect(portfolio.as_of('12/31/2012')[:positions][:aapl][:share_count]).to eq(0)
+      portfolio.sell(stock: :aapl, date: today, amount: 1000)
+      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(0)
     end
   end
 
   describe '#buy' do
     it 'decreases share count by specified amount' do
-      portfolio.buy(stock: :aapl, date: '12/31/2012', amount: 5)
-      expect(portfolio.as_of('12/31/2012')[:positions][:aapl][:share_count]).to eq(105)
+      portfolio.buy(stock: :aapl, date: today, amount: 5)
+      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(105)
     end
 
     it 'increases cash balance by correct amount' do
-      portfolio.buy(stock: :aapl, date: '12/31/2012', amount: 5)
-      expect(portfolio.as_of('12/31/2012')[:cash]).to eq(13925)
+      portfolio.buy(stock: :aapl, date: today, amount: 5)
+      expect(portfolio.as_of(today)[:cash]).to eq(13925)
     end
+
+    it 'creates a new position'
+    it 'sets correct entry price for the new position'
+    it 'sets correct share count for the new position'
   end
 
   describe '#sell_non_target_stocks' do
@@ -93,10 +90,51 @@ describe Portfolio do
     end
   end
 
-  describe '#rebalance' do
-    it '' do
-      portfolio
+  describe '#add_target_stocks_not_already_held' do
+    before { portfolio.add_target_stocks_not_already_held(date: today, target: target) }
+
+    it 'adds correct positions' do
+      expect(portfolio.as_of(today)[:positions][:bbry]).to be_present
+      expect(portfolio.as_of(today)[:positions][:xom]).to be_present
+    end
+
+    it 'adds a position with correct entry price' do
+      expect(portfolio.as_of(today)[:positions][:bbry][:entry_price]).to eq(79.15)
+    end
+
+    it 'adds a position with correct share count' do
+      expect(portfolio.as_of(today)[:positions][:bbry][:share_count]).to eq(13449)
     end
   end
 
+  describe '#remove_blank_positions' do
+    before do 
+      portfolio.sell_non_target_stocks(date: today, target: target)
+      portfolio.remove_blank_positions(today)
+    end
+
+    it 'removes all positions with share_count of 0' do
+      expect(portfolio.as_of(today)[:positions].keys).not_to include(:nok)
+    end
+  end
+
+  describe '#remove_delisted_positions' do
+    before { portfolio.remove_delisted_positions(today) }
+
+    it 'removes all delisted positions' do
+      expect(portfolio.periods[today][:positions].keys).not_to include(:flo)
+    end
+  end
+
+  describe '#carry_forward' do
+    before { portfolio.carry_forward(today) }
+
+    it 'creates next period in the portfolio' do
+      expect(portfolio.as_of('2013-12-31')).to be_present
+    end
+
+    it 'moves all existing positions to the next period' do
+      expect(portfolio.as_of('2013-12-31')[:positions]).to eq(portfolio.as_of(today)[:positions])
+    end
+  end
 end

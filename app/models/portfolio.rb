@@ -22,24 +22,12 @@ class Portfolio
   end
 
   def rebalance(args)
-    #   # only stocks that are in target portfolio will remain at this point
-
-    #   for each stock in existing portfolio do |current_stock|
-    #     if current_stock.share_count > target share count
-    #       sell excess
-    #     elsif current_stock.share_count < target share count
-    #       buy 
-    #     end
-    #     in target portfolio, mark "already in porfolio"
-    #   end
-
-    #   for each stock in target porfolio which are not "already in porfolio" do |stock|
-    #     in portfolio, buy assigned number of shares of stock
-    #   end
-
     sell_non_target_stocks(args)
     adjust_target_stocks_already_held(args)    
     add_target_stocks_not_already_held(args)
+    remove_blank_positions(date)
+    remove_delisted_positions(date)
+    carry_forward(date)
   end
 
   # private
@@ -64,17 +52,40 @@ class Portfolio
     end
   end
 
+  def add_target_stocks_not_already_held(args)
+    target = args[:target]
+    stocks_to_add = target.select { |cid, position| as_of(args[:date])[:positions].keys.exclude? cid }
+    stocks_to_add.each do |cid, position|
+      periods[args[:date]][:positions][cid] = { share_count: 0, entry_price: 0 }
+      buy(date: args[:date], stock: cid, amount: position[:share_count])
+    end
+  end
+
+  def remove_blank_positions(date)
+    periods[date][:positions].delete_if{ |k,v| v[:share_count] == 0 }
+  end
+
+  def remove_delisted_positions(date)
+    periods[date][:positions].delete_if{ |cid, position| PricePoint.where(cid: cid, period: date).first.delisted == true }
+  end
+
+  def carry_forward(date)
+    next_period = (Date.strptime(date, '%Y-%m-%d') + 1.year).to_s
+    periods[next_period] = periods[date]
+  end
+
   def sell(args)
     position = periods[args[:date]][:positions][args[:stock]]
     amount = args[:amount] == :all ? position[:share_count] : [args[:amount], position[:share_count]].min
     position[:share_count] -= amount
-    periods[args[:date]][:cash] = (periods[args[:date]][:cash] + args[:amount] * PricePoint.where(period: args[:date], cid: args[:stock]).first.price).round(2)
+    periods[args[:date]][:cash] = (periods[args[:date]][:cash] + amount * PricePoint.where(period: args[:date], cid: args[:stock]).first.price).round(2)
   end
 
   def buy(args)
-    position = periods[args[:date]][:positions][args[:stock]]
-    position[:share_count] += args[:amount]
-    periods[args[:date]][:cash] = (periods[args[:date]][:cash] - args[:amount] * PricePoint.where(period: args[:date], cid: args[:stock]).first.price).round(2)
+    this_position = periods[args[:date]][:positions][args[:stock]]
+    this_position[:share_count] += args[:amount]
+    this_position[:entry_price] = PricePoint.where(period: args[:date], cid: args[:stock]).first.price
+    periods[args[:date]][:cash] = (periods[args[:date]][:cash] - args[:amount] * this_position[:entry_price]).round(2)
   end
 
   def delisted_positions(date)
