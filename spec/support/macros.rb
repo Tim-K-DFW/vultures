@@ -19,7 +19,7 @@ def fabricate_target_portfolio
 end
 
 def fabricate_portfolio(current_date)
-  portfolio = Portfolio.new(position_count: 5, initial_balance: 1000000, start_date: '2009-12-31')
+  portfolio = Portfolio.new(sell_method: :fifo, position_count: 5, initial_balance: 1000000, start_date: '2009-12-31')
   portfolio.periods[current_date] = {}
 
   apple = Position.new(stock: :aapl)

@@ -3,6 +3,7 @@ class Portfolio
   attr_accessor :periods
 
   def initialize(args)
+    @sell_method = args[:sell_method]
     @position_count = args[:position_count]
     @initial_balance = args[:initial_balance]
     @periods = {}
@@ -65,13 +66,22 @@ class Portfolio
   def carry_forward(date)
     next_period = (Date.strptime(date, '%Y-%m-%d') + 1.year).to_s
     periods[next_period] = periods[date]
+    # adjust current_date for positions
   end
 
   def sell(args)
-    this_position = periods[args[:date]][:positions][args[:stock]]
-    amount = args[:amount] == :all ? this_position[:share_count] : [args[:amount], this_position[:share_count]].min
-    this_position[:share_count] -= amount
-    periods[args[:date]][:cash] = (periods[args[:date]][:cash] + amount * PricePoint.where(period: args[:date], cid: args[:stock]).first.price).round(2)
+    today = args[:date]
+    periods[today][:cash] = (periods[today][:cash] + args[:amount] * PricePoint.where(period: today, cid: args[:stock]).first.price).round(2)
+    position(args[:stock], today).decrease(args[:amount], @sell_method)
+
+    if args[:amount] == :all
+      pieces = {}
+    else
+
+    end
+
+    # share_count -= amount
+    
   end
 
   def buy(args)
@@ -79,5 +89,14 @@ class Portfolio
     this_position[:share_count] += args[:amount]
     this_position[:entry_price] = PricePoint.where(period: args[:date], cid: args[:stock]).first.price
     periods[args[:date]][:cash] = (periods[args[:date]][:cash] - args[:amount] * this_position[:entry_price]).round(2)
+  end
+
+  def delete_position(args)
+    position = periods[args[:date]][:positions][args[:stock]]
+    if position.pieces.blank?
+      periods[args[:date]][:positions].delete_if{ |cid, position| cid == args[:stock] }
+    else
+      raise "cannot delete a non-empty position: #{args[:stock]}"
+    end
   end
 end

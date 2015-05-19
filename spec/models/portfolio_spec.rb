@@ -33,14 +33,14 @@ describe Portfolio do
   end
   
   describe '#sell' do
+    it 'increases cash balance by correct amount' do
+      portfolio.sell(stock: :aapl, date: today, amount: 5)
+      expect(portfolio.periods[today][:cash]).to eq(3075)
+    end
+
     it 'decreases share count by specified amount' do
       portfolio.sell(stock: :aapl, date: today, amount: 5)
       expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(95)
-    end
-
-    it 'increases cash balance by correct amount' do
-      portfolio.sell(stock: :aapl, date: today, amount: 5)
-      expect(portfolio.as_of(today)[:cash]).to eq(14075)
     end
 
     it 'understands amount of "all" ' do
@@ -68,6 +68,18 @@ describe Portfolio do
     it 'creates a new position'
     it 'sets correct entry price for the new position'
     it 'sets correct share count for the new position'
+  end
+
+  describe '#delete_position' do
+    it 'throws an exception when position is not empty' do
+      expect { portfolio.delete_position(date: today, stock: :aapl) }.to raise_error('cannot delete a non-empty position: aapl')
+    end
+
+    it 'removes position if position is empty' do
+      portfolio.periods[today][:positions][:aapl].pieces = {}
+      portfolio.delete_position(date: today, stock: :aapl)
+      expect(portfolio.periods[today][:positions].keys).not_to include(:aapl)
+    end
   end
 
   describe '#sell_non_target_stocks' do

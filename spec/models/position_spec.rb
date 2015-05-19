@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Position do
+  let(:today) { '2011-12-31' }
 
   describe '#share_count' do
     it 'correctly adds share count of one piece' do
@@ -99,28 +100,29 @@ describe Position do
     end
   end
 
-  describe '#sell' do
-    let(:apple) { fabricate_apple_position }
+  describe '#decrease' do
+    let(:apple){ fabricate_apple_position }
 
-    it 'decreases share count by specified amount' do
-      portfolio.sell(stock: :aapl, date: today, amount: 5)
-      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(95)
+    it 'understands amount of "all"' do
+      apple.decrease(:all)
+      expect(apple.share_count).to eq(0)
     end
 
-    it 'increases cash balance by correct amount' do
-      portfolio.sell(stock: :aapl, date: today, amount: 5)
-      expect(portfolio.as_of(today)[:cash]).to eq(14075)
+    it 'decreases total share count by specified amount' do
+      apple.decrease(1500)
+      expect(apple.share_count).to eq(100)
     end
 
-    it 'understands amount of "all" ' do
-      portfolio.sell(stock: :aapl, date: today, amount: :all)
-      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(0)
+    it 'removes empty pieces' do
+      apple.decrease(1500)
+      expect(apple.pieces['2009-12-31']).to be_nil
+      expect(apple.pieces['2010-12-31']).to be_nil
     end
 
-    it 'does not sell more than current share count' do
-      portfolio.sell(stock: :aapl, date: today, amount: 1000)
-      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(0)
-    end
+    it 'raises exception if amount exceeds total share count'
+    it 'uses :fifo sell method if none is specified'
+    it 'with sell method of :fifo, it decreases oldest pieces first'
+    it 'with sell method of :lifo, it decreases newest pieces first'
   end
 
   
