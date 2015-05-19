@@ -9,6 +9,11 @@ describe PortfolioInspector do
   
 
   describe '#snapshot' do
+    it 'returns a hash of Position objects' do
+      expect(output).to be_of_kind(Hash)
+      expect(output.first).to be_of_kind(Position)
+    end
+
     it 'returns total market value under martket_value key' do
       expect(output[:market_value]).to eq(156881.77)
     end

@@ -16,6 +16,10 @@ describe Portfolio do
     end
   end
 
+  describe 'position' do
+
+  end
+
   describe '#rebalance' do
     it 'automatically removes hashes for delisted positions' do
       portfolio.rebalance(target: target, date: today)

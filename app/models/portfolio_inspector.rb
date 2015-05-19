@@ -8,6 +8,7 @@ class PortfolioInspector
 
   def snapshot
     result = {}
+    binding.pry
     result[:delisted_positions] = delisted_positions
     result[:positions] = portfolio.periods[report_date][:positions].dup
     result[:positions].delete_if{|k,v| result[:delisted_positions].keys.include?(k)}
@@ -17,15 +18,7 @@ class PortfolioInspector
   end
 
   def delisted_positions
-    result = {}
-    portfolio.periods[report_date][:positions].each do |cid, position|
-      price_point = PricePoint.where(period: report_date, cid: cid).first
-      if price_point["delisted"] == true
-        position[:delisting_date] = price_point["delisting_date"]
-        result[cid] = position
-      end
-    end
-    result
+    portfolio.periods[report_date][:positions].select{ |k, v| v.delisted? }
   end
 
   def delisting_proceeds(delisted_positions)
