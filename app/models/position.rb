@@ -39,33 +39,33 @@ class Position
   end
 
   def decrease(amount, method=nil)
-    if amount == :all
-      @pieces = {}
-    else
-      @pieces = method == :lifo ? pieces_sort(:desc) : pieces_sort(:asc)
-
-      shares_to_remove = amount
-      @pieces.each do |piece|
-        if piece[1][:share_count] >= shares_to_remove
-          piece[1][:share_count] -= shares_to_remove
-          shares_to_remove = 0
-        else
-          shares_to_remove -= piece[1][:share_count]
-          piece[1][:share_count] = 0
-        end
-        break if shares_to_remove == 0
-      end # @pieces.each
-      @pieces.delete_if{|k,v| v[:share_count] == 0}
+    raise "cannot decrease a #{share_count}-share position by #{amount} shares (#{cid})" if amount > share_count
+    pieces = method == :lifo ? pieces_sort(:desc) : pieces_sort(:asc)
+    shares_to_remove = amount
+    pieces.each do |piece|
+      if piece[1][:share_count] >= shares_to_remove
+        piece[1][:share_count] -= shares_to_remove
+        shares_to_remove = 0
+      else
+        shares_to_remove -= piece[1][:share_count]
+        piece[1][:share_count] = 0
+      end
+      break if shares_to_remove == 0
     end
+    @pieces.delete_if{|k,v| v[:share_count] == 0}
+  end
 
-
-  end # decrease
+  def increase(amount, date)
+    pieces[date] = {}
+    pieces[date][:share_count] = amount
+    pieces[date][:entry_price] = (PricePoint.where(cid: cid, period: date).first.price).round(2)
+  end
 
   def pieces_sort(order)
     if order == :asc
-      temp = @pieces.sort_by {|h| h[0]}
+      temp = pieces.sort_by {|h| h[0]}
     else
-      temp = @pieces.sort_by {|h| h[0]}.reverse
+      temp = pieces.sort_by {|h| h[0]}.reverse
     end
     result = {}
     temp.each { |t| result[t[0]] = t[1] }

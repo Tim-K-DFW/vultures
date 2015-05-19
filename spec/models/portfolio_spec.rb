@@ -11,8 +11,8 @@ describe Portfolio do
   end
 
   describe '#as_of' do
-    it 'returns total market value under martket_value key' do
-      expect(portfolio.as_of(today)[:market_value_total]).to eq(515826.88)
+    it 'returns total market value under market_value key' do
+      expect(portfolio.as_of(today)[:total_market_value]).to eq(515826.88)
     end
   end
 
@@ -40,44 +40,58 @@ describe Portfolio do
 
     it 'decreases share count by specified amount' do
       portfolio.sell(stock: :aapl, date: today, amount: 5)
-      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(95)
+      expect(portfolio.as_of(today)[:positions][:aapl].share_count).to eq(1595)
     end
 
-    it 'understands amount of "all" ' do
+    it 'sells out entire position when passed amount of "all" ' do
       portfolio.sell(stock: :aapl, date: today, amount: :all)
-      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(0)
+      expect(portfolio.as_of(today)[:positions][:aapl]).to be_nil
     end
 
     it 'does not sell more than current share count' do
-      portfolio.sell(stock: :aapl, date: today, amount: 1000)
-      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(0)
+      expect{ portfolio.sell(stock: :aapl, date: today, amount: 10000) }.to raise_error('cannot decrease a 1600-share position by 10000 shares (aapl)')
     end
   end
 
   describe '#buy' do
-    it 'decreases share count by specified amount' do
-      portfolio.buy(stock: :aapl, date: today, amount: 5)
-      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(105)
+    context 'when the stock being added in not in portfolio' do
+      before { portfolio.buy(stock: :bbry, date: today, amount: 500) }
+
+      it 'creates a new position' do
+        expect(portfolio.as_of(today)[:positions][:bbry]).to be_kind_of(Position)
+      end
+
+      it 'new position has correct share count' do
+        expect(portfolio.as_of(today)[:positions][:bbry].share_count).to eq(500)
+      end
+
+      it 'new position has correct market value' do
+        expect(portfolio.as_of(today)[:positions][:bbry].market_value).to eq(39575)
+      end 
     end
 
-    it 'increases cash balance by correct amount' do
-      portfolio.buy(stock: :aapl, date: today, amount: 5)
-      expect(portfolio.as_of(today)[:cash]).to eq(13925)
+    context 'when the stock being added is already in portfolio' do
+      before { portfolio.buy(stock: :aapl, date: today, amount: 5) }
+
+      it 'updated position has correct share count' do
+        expect(portfolio.as_of(today)[:positions][:aapl].share_count).to eq(1605)
+      end
+
+      it 'updated position has correct market value' do
+        expect(portfolio.as_of(today)[:positions][:aapl].market_value).to eq(24075)
+      end
     end
 
-    it 'creates a new position'
-    it 'sets correct entry price for the new position'
-    it 'sets correct share count for the new position'
+    it 'decreases cash balance by correct amount' do
+      portfolio.buy(stock: :aapl, date: today, amount: 5)
+      expect(portfolio.periods[today][:cash]).to eq(2925)
+    end
   end
 
   describe '#delete_position' do
-    it 'throws an exception when position is not empty' do
-      expect { portfolio.delete_position(date: today, stock: :aapl) }.to raise_error('cannot delete a non-empty position: aapl')
-    end
-
     it 'removes position if position is empty' do
-      portfolio.periods[today][:positions][:aapl].pieces = {}
-      portfolio.delete_position(date: today, stock: :aapl)
+      apple = portfolio.periods[today][:positions][:aapl]
+      portfolio.delete_position(apple)
       expect(portfolio.periods[today][:positions].keys).not_to include(:aapl)
     end
   end
@@ -122,16 +136,16 @@ describe Portfolio do
     end
   end
 
-  describe '#remove_blank_positions' do
-    before do 
-      portfolio.sell_non_target_stocks(date: today, target: target)
-      portfolio.remove_blank_positions(today)
-    end
+  # describe '#remove_blank_positions' do
+  #   before do 
+  #     portfolio.sell_non_target_stocks(date: today, target: target)
+  #     portfolio.remove_blank_positions(today)
+  #   end
 
-    it 'removes all positions with share_count of 0' do
-      expect(portfolio.as_of(today)[:positions].keys).not_to include(:nok)
-    end
-  end
+  #   it 'removes all positions with share_count of 0' do
+  #     expect(portfolio.as_of(today)[:positions].keys).not_to include(:nok)
+  #   end
+  # end
 
   describe '#carry_forward' do
     before { portfolio.carry_forward(today) }

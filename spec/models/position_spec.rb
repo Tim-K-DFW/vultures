@@ -103,11 +103,6 @@ describe Position do
   describe '#decrease' do
     let(:apple){ fabricate_apple_position }
 
-    it 'understands amount of "all"' do
-      apple.decrease(:all)
-      expect(apple.share_count).to eq(0)
-    end
-
     it 'decreases total share count by specified amount' do
       apple.decrease(1500)
       expect(apple.share_count).to eq(100)
@@ -119,11 +114,48 @@ describe Position do
       expect(apple.pieces['2010-12-31']).to be_nil
     end
 
-    it 'raises exception if amount exceeds total share count'
-    it 'uses :fifo sell method if none is specified'
-    it 'with sell method of :fifo, it decreases oldest pieces first'
-    it 'with sell method of :lifo, it decreases newest pieces first'
+    it 'raises exception if amount exceeds total share count' do
+      expect { apple.decrease(10000) }.to raise_error('cannot decrease a 1600-share position by 10000 shares (aapl)')
+    end
+
+    it 'uses :fifo sell method if none is specified' do
+      apple.decrease(1500)
+      expect(apple.pieces['2009-12-31']).to be_nil
+    end
+
+    it 'with sell method of :fifo, it decreases oldest pieces first' do
+      apple.decrease(1500, :fifo)
+      expect(apple.pieces['2009-12-31']).to be_nil
+    end
+
+    it 'with sell method of :lifo, it decreases newest pieces first' do
+      apple.decrease(1500, :lifo)
+      expect(apple.pieces['2011-12-31']).to be_nil
+    end
   end
+
+  describe '#increase' do
+    before { fabricate_price_points('2013-12-31') }
+    let(:apple){ fabricate_apple_position }
+    let(:today){ '2013-12-31' }
+
+    it 'creates a new piece' do
+      apple.increase(100, today)
+      expect(apple.pieces[today]).to be_kind_of(Hash)
+    end
+
+    it 'assigns correct share count to the new piece' do
+      apple.increase(100, today)
+      expect(apple.pieces[today][:share_count]).to eq(100)
+    end
+
+    it 'assigns correct entry price to the new piece' do
+      apple.increase(100, today)
+      expect(apple.pieces[today][:entry_price]).to eq(15)
+    end
+  end
+
+
 
   
 end

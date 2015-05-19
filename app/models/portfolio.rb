@@ -22,9 +22,9 @@ class Portfolio
 
   def rebalance(args)
     sell_non_target_stocks(args)
-    adjust_target_stocks_already_held(args)    
+    adjust_target_stocks_already_held(args)
     add_target_stocks_not_already_held(args)
-    remove_blank_positions(args[:date])
+    # remove_blank_positions(args[:date])
     carry_forward(args[:date])
   end
 
@@ -35,7 +35,7 @@ class Portfolio
     target = args[:target]
     full_sell_list = periods[today][:positions].keys - target.keys
     full_sell_list.each do |stock|
-      stock.sell(amount: :all, date: today)
+      sell(amount: :all, date: today)
     end
   end
 
@@ -59,9 +59,9 @@ class Portfolio
     end
   end
 
-  def remove_blank_positions(date)
-    periods[date][:positions].delete_if{ |k,v| v[:share_count] == 0 }
-  end
+  # def remove_blank_positions(date)
+  #   periods[date][:positions].delete_if{ |k,v| v[:share_count] == 0 }
+  # end
 
   def carry_forward(date)
     next_period = (Date.strptime(date, '%Y-%m-%d') + 1.year).to_s
@@ -71,32 +71,31 @@ class Portfolio
 
   def sell(args)
     today = args[:date]
-    periods[today][:cash] = (periods[today][:cash] + args[:amount] * PricePoint.where(period: today, cid: args[:stock]).first.price).round(2)
-    position(args[:stock], today).decrease(args[:amount], @sell_method)
-
-    if args[:amount] == :all
-      pieces = {}
-    else
-
-    end
-
-    # share_count -= amount
+    position = periods[today][:positions][args[:stock]]
+    amount = args[:amount] == :all ? position.share_count : args[:amount]
+    periods[today][:cash] = (periods[today][:cash] + amount * PricePoint.where(period: today, cid: position.cid).first.price).round(2)
     
+    if args[:amount] == :all
+      position.pieces = {}
+      delete_position(position)
+    else
+      position.decrease(args[:amount], @sell_method)
+    end
   end
 
   def buy(args)
-    this_position = periods[args[:date]][:positions][args[:stock]]
-    this_position[:share_count] += args[:amount]
-    this_position[:entry_price] = PricePoint.where(period: args[:date], cid: args[:stock]).first.price
-    periods[args[:date]][:cash] = (periods[args[:date]][:cash] - args[:amount] * this_position[:entry_price]).round(2)
+    today = args[:date]
+    this_stock = args[:stock]
+    if periods[today][:positions].keys.include? this_stock
+      this_position = periods[today][:positions][this_stock]
+    else
+      this_position = periods[today][:positions][this_stock] = Position.new(stock: this_stock, current_date: today)
+    end
+    this_position.increase(args[:amount], today)
+    periods[today][:cash] = (periods[today][:cash] - this_position.pieces[today][:share_count] * this_position.pieces[today][:entry_price]).round(2)
   end
 
-  def delete_position(args)
-    position = periods[args[:date]][:positions][args[:stock]]
-    if position.pieces.blank?
-      periods[args[:date]][:positions].delete_if{ |cid, position| cid == args[:stock] }
-    else
-      raise "cannot delete a non-empty position: #{args[:stock]}"
-    end
+  def delete_position(position)
+    periods[position.current_date][:positions].delete_if{ |cid, pos| pos == position }
   end
 end
