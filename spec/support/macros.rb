@@ -79,7 +79,7 @@ def fabricate_price_points(date = nil)
 end
 
 def fabricate_apple_position(args=nil)
-  apple = Position.new(stock: :aapl, as_of_date: '2011-12-31')
+  apple = Position.new(stock: :aapl, current_date: '2011-12-31')
   if args && args[:one_piece]
     apple.pieces = { "2011-12-31" => { share_count: 300, entry_price: 15.05 } }
   else

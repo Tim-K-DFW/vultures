@@ -8,12 +8,14 @@ class PortfolioInspector
 
   def snapshot
     result = {}
-    binding.pry
     result[:delisted_positions] = delisted_positions
     result[:positions] = portfolio.periods[report_date][:positions].dup
     result[:positions].delete_if{|k,v| result[:delisted_positions].keys.include?(k)}
-    result[:cash] = (portfolio.periods[report_date][:cash] + delisting_proceeds(result[:delisted_positions])).round(2)
-    result[:market_value] = positions_value(result[:positions]) + result[:cash]
+    result[:cash_ex_delisting_proceeds] = portfolio.periods[report_date][:cash]
+    result[:cash_from_delisting] = delisting_proceeds(result[:delisted_positions])
+    result[:cash_total] = result[:cash_ex_delisting_proceeds] + result[:cash_from_delisting]
+    result[:market_value_of_positions] = positions_value(result[:positions])
+    result[:total_market_value] = result[:market_value_of_positions] + result[:cash_total]
     result
   end
 
@@ -22,18 +24,10 @@ class PortfolioInspector
   end
 
   def delisting_proceeds(delisted_positions)
-    result = 0
-    delisted_positions.each do |cid, position|
-      result += (position[:share_count] * PricePoint.where(period: report_date, cid: cid).first.price).round(2)
-    end
-    result
+    delisted_positions.inject(0) {|total, position| total + position[1].market_value }
   end
 
   def positions_value(survived_positions)
-    result = 0
-    survived_positions.each do |cid, position|
-      result += (position[:share_count] * PricePoint.where(period: report_date, cid: cid).first.price).round(2)
-    end
-    result
+    survived_positions.inject(0) {|total, position| total + position[1].market_value }
   end
 end

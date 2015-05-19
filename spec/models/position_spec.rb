@@ -53,7 +53,7 @@ describe Position do
   end
 
   describe '#profit' do
-     before { Fabricate(:price_point, cid: 'aapl', price: 15, period: '2011-12-31') }
+    before { Fabricate(:price_point, cid: 'aapl', price: 15, period: '2011-12-31') }
 
     it 'correctly calculates profit for one piece' do
       apple = fabricate_apple_position(one_piece: true)
@@ -99,8 +99,31 @@ describe Position do
     end
   end
 
-  describe '#increase'
-  describe '#decrease'
+  describe '#sell' do
+    let(:apple) { fabricate_apple_position }
+
+    it 'decreases share count by specified amount' do
+      portfolio.sell(stock: :aapl, date: today, amount: 5)
+      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(95)
+    end
+
+    it 'increases cash balance by correct amount' do
+      portfolio.sell(stock: :aapl, date: today, amount: 5)
+      expect(portfolio.as_of(today)[:cash]).to eq(14075)
+    end
+
+    it 'understands amount of "all" ' do
+      portfolio.sell(stock: :aapl, date: today, amount: :all)
+      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(0)
+    end
+
+    it 'does not sell more than current share count' do
+      portfolio.sell(stock: :aapl, date: today, amount: 1000)
+      expect(portfolio.as_of(today)[:positions][:aapl][:share_count]).to eq(0)
+    end
+  end
+
+  
 end
 
 

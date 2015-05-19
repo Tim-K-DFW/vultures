@@ -12,12 +12,16 @@ describe Portfolio do
 
   describe '#as_of' do
     it 'returns total market value under martket_value key' do
-      expect(portfolio.as_of(today)[:market_value]).to eq(156881.77)
+      expect(portfolio.as_of(today)[:market_value_total]).to eq(515826.88)
     end
   end
 
   describe 'position' do
+    it 'returns a position hash for specified cid' do
+      expect(portfolio.position(:aapl, '2012-12-31').cid).to eq(:aapl)
+    end
 
+    it 'returns nil if position does not exist'
   end
 
   describe '#rebalance' do
@@ -25,8 +29,7 @@ describe Portfolio do
       portfolio.rebalance(target: target, date: today)
       expect(portfolio.periods[today][:positions].keys).not_to include(:flo)
     end
-
-    # rest is test in component methods
+    # rest is tested in component methods
   end
   
   describe '#sell' do

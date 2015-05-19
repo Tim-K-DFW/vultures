@@ -11,6 +11,10 @@ class Portfolio
     @periods[args[:start_date]][:cash] = @initial_balance
   end
 
+  def position(cid, as_of_date)
+    periods[as_of_date][:positions][cid]
+  end
+
   def as_of(report_date)
     PortfolioInspector.new(self, report_date).snapshot
   end
@@ -30,7 +34,7 @@ class Portfolio
     target = args[:target]
     full_sell_list = periods[today][:positions].keys - target.keys
     full_sell_list.each do |stock|
-      sell(stock: stock, amount: :all, date: today)
+      stock.sell(amount: :all, date: today)
     end
   end
 
