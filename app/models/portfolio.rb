@@ -12,18 +12,18 @@ class Portfolio
     @periods[args[:start_date]][:cash] = @initial_balance
   end
 
-  # def position(cid, as_of_date=nil)
-  #   if as_of_date
-  #     periods[as_of_date][:positions][cid]
-  #   else
-  #     binding.pry
-  #     periods.select {|date, content| }
-  #   end
-  # end
+  def position(cid, as_of_date)
+    if as_of_date
+      periods[as_of_date][:positions][cid]
+    else
+      binding.pry
+      periods.select {|date, content| }
+    end
+  end
 
-  # def as_of(report_date)
-  #   PortfolioInspector.new(self, report_date).snapshot
-  # end
+  def as_of(report_date)
+    PortfolioInspector.new(self, report_date).snapshot
+  end
 
   def rebalance(args)
     carry_forward(args[:new_period])
@@ -61,7 +61,6 @@ class Portfolio
   end
 
   def carry_forward(new_period)
-    binding.pry
     old_period = (Date.strptime(new_period, '%Y-%m-%d') - 1.year).to_s
     periods[new_period] = {}
     periods[new_period][:positions] = {}

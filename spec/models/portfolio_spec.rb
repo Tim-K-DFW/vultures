@@ -10,26 +10,21 @@ describe Portfolio do
     fabricate_price_points('2013-12-31')
   end
 
-  # NEEDS TO BE UPDATED after adding multiple pieces of position (truly capturing a portofolio's state as of some date will require removing pieces added past that date; will add later)
+  describe '#as_of' do
+    it 'returns total market value under market_value key' do
+      expect(portfolio.as_of(today)[:total_market_value]).to eq(515826.88)
+    end
+  end
 
-  # describe '#as_of' do
-  #   it 'returns total market value under market_value key' do
-  #     expect(portfolio.periods[today][:total_market_value]).to eq(515826.88)
-  #   end
-  # end
+  describe 'position' do
+    it 'returns a position hash for specified cid with specified date' do
+      expect(portfolio.position(:aapl, '2012-12-31').cid).to eq(:aapl)
+    end
 
-  # describe 'position' do
-  #   it 'returns a position hash for specified cid with specified date' do
-  #     expect(portfolio.position(:aapl, '2012-12-31').cid).to eq(:aapl)
-  #   end
-
-  #   it 'returns all position hashes for specified cid without specified date' do
-  #     binding.pry
-  #     # expect(portfolio.position(:aapl)).to 
-  #   end
-
-  #   it 'returns nil if position does not exist'
-  # end
+    it 'returns nil if position does not exist' do
+      expect(portfolio.position(:gdp, '2012-12-31')).to be_nil
+    end
+  end
 
   describe '#rebalance' do
     it 'automatically removes hashes for delisted positions' do
@@ -106,13 +101,13 @@ describe Portfolio do
 
   describe '#sell_non_target_stocks' do
     it 'sells a position which is not in target portfolio' do
-      portfolio.sell_non_target_stocks(date: today, target: target)
+      portfolio.sell_non_target_stocks(new_period: today, target: target)
       expect(portfolio.periods[today][:positions].keys).not_to include(:nok)
     end
   end
 
   describe '#adjust_target_stocks_already_held' do
-    before { portfolio.adjust_target_stocks_already_held(date: today, target: target) }
+    before { portfolio.adjust_target_stocks_already_held(new_period: today, target: target) }
 
     it 'sells extra shares if portfolio is above target' do
       expect(portfolio.periods[today][:positions][:aapl].share_count).to eq(50)
@@ -128,7 +123,7 @@ describe Portfolio do
   end
 
   describe '#add_target_stocks_not_already_held' do
-    before { portfolio.add_target_stocks_not_already_held(date: today, target: target) }
+    before { portfolio.add_target_stocks_not_already_held(new_period: today, target: target) }
 
     it 'adds correct positions' do
       expect(portfolio.periods[today][:positions][:bbry]).to be_present
