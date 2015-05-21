@@ -3,7 +3,13 @@ require 'spec_helper'
 describe Engine do
   describe 'run' do
     before { set_up_trial_data }
-    let(:engine){ Engine.new.run }
+    let(:engine){ Engine.new({
+      position_count: 5,
+      start_date: '2012-12-31',
+      initial_balance: 1000000,
+      market_cap_floor: 200,
+      market_cap_ceiling: 2000 
+    }).run }
 
     it 'creates required number of periods in Portfolio' do
       expect(engine.portfolio.periods.count).to eq(4)
@@ -38,7 +44,6 @@ describe Engine do
       expect(test_2014[:msft].share_count).to eq(928612)
       expect(test_2014[:xom].share_count).to eq(28340549)
 
-      
       test_2015 = engine.portfolio.periods['2015-12-31'][:positions]
       expect(test_2015[:gs].share_count).to eq(4023635)
       expect(test_2015[:pxd].share_count).to eq(5912878)
@@ -50,6 +55,17 @@ describe Engine do
     it 'for each period, does not buy delisted stocks' do
       expect(engine.portfolio.periods['2014-12-31'][:positions].keys).not_to include(:aapl)
       expect(engine.portfolio.periods['2015-12-31'][:positions].keys).not_to include(:ms)
+    end
+
+    it 'for each period, does not buy stocks outside of market cap limits' do
+      expect(engine.portfolio.periods['2012-12-31'][:positions].keys).not_to include(:aapl)
+      expect(engine.portfolio.periods['2013-12-31'][:positions].keys).not_to include(:msft)
+      expect(engine.portfolio.periods['2013-12-31'][:positions].keys).not_to include(:pxd)
+      expect(engine.portfolio.periods['2014-12-31'][:positions].keys).not_to include(:gs)
+      expect(engine.portfolio.periods['2014-12-31'][:positions].keys).not_to include(:nok)
+      expect(engine.portfolio.periods['2014-12-31'][:positions].keys).not_to include(:gdp)
+      expect(engine.portfolio.periods['2015-12-31'][:positions].keys).not_to include(:geod)
+      expect(engine.portfolio.periods['2015-12-31'][:positions].keys).not_to include(:msft)
     end
 
     it 'for each period, maintains non-negative cash balance' do

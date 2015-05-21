@@ -6,16 +6,20 @@ class Engine
   end
 
   def run
-    @portfolio = Portfolio.new(position_count: 5, initial_balance: 1000000, start_date: '2012-12-31')
+    @portfolio = Portfolio.new(
+      position_count: parameters[:position_count],
+      initial_balance: parameters[:initial_balance],
+      start_date: parameters[:start_date]
+    )
     PricePoint.all_periods.each do |period|
       period = period.to_s
       current_market_data = ScoreCalculator.new(
-        market_cap_floor: 200, 
-        market_cap_ceiling: 2000,
+        market_cap_floor: parameters[:market_cap_floor], 
+        market_cap_ceiling: parameters[:market_cap_ceiling],
         period: period
       ).assign_scores
 
-      @portfolio.carry_forward(period) unless period == '2012-12-31'
+      @portfolio.carry_forward(period) unless period == parameters[:start_date]
       target_portfolio = TargetPortfolio.new(
         current_portfolio_balance: @portfolio.as_of(period)[:total_market_value],
         position_count: @portfolio.position_count,
