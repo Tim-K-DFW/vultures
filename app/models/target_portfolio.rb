@@ -2,7 +2,8 @@ class TargetPortfolio
   attr_accessor :positions
 
   def initialize(args)
-    @current_portfolio = args[:current_portfolio]
+    @current_portfolio_balance = args[:current_portfolio_balance]
+    @position_count = args[:position_count]
     @market_data = args[:current_market_data]
     @parameters = args[:parameters]
     @positions = {}
@@ -18,7 +19,7 @@ class TargetPortfolio
   end
 
   def cash_balance
-    @current_portfolio.balance - cost
+    @current_portfolio_balance - cost
   end
 
   def hold_list
@@ -28,9 +29,9 @@ class TargetPortfolio
   # private
 
   def build_initial_positions
-    max_allocation_per_position = @current_portfolio.balance / @current_portfolio.position_count
+    max_allocation_per_position = @current_portfolio_balance / @position_count
     @market_data.sort_by! {|h| h["total_score"] }
-    @current_portfolio.position_count.times do |i|
+    @position_count.times do |i|
       positions[@market_data[i]["cid"].to_sym] = this_position = {}
       this_position[:price] = @market_data[i]["price"]
       this_position[:total_score] = @market_data[i]["total_score"]

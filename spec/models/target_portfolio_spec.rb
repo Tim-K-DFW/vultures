@@ -3,7 +3,7 @@ require 'spec_helper'
 describe TargetPortfolio do
   let(:current_portfolio) { double(balance: 1000000, position_count: 5) }
   let(:current_market_data) { fabricate_market_data }
-  let(:target) { TargetPortfolio.new(current_portfolio: current_portfolio, current_market_data: current_market_data) }
+  let(:target) { TargetPortfolio.new(current_portfolio_balance: 1000000, position_count: 5, current_market_data: current_market_data) }
 
   describe '#cost' do
     it 'returns correct total cost of all positions' do

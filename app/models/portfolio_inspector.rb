@@ -24,10 +24,10 @@ class PortfolioInspector
   end
 
   def delisting_proceeds(delisted_positions)
-    delisted_positions.inject(0) {|total, position| total + position[1].market_value }
+    (delisted_positions.inject(0) {|total, position| total + position[1].market_value }).round(2)
   end
 
   def positions_value(survived_positions)
-    survived_positions.inject(0) {|total, position| total + position[1].market_value }
+    (survived_positions.inject(0) {|total, position| total + position[1].market_value }).round(2)
   end
 end

@@ -25,8 +25,18 @@ class Portfolio
     PortfolioInspector.new(self, report_date).snapshot
   end
 
+  def carry_forward(new_period)
+    old_period = (Date.strptime(new_period, '%Y-%m-%d') - 1.year).to_s
+    periods[new_period] = {}
+    periods[new_period][:positions] = {}
+    periods[old_period][:positions].each do |cid, position|
+      new_position = periods[new_period][:positions][cid] = Position.new(stock: cid, current_date: new_period)
+      new_position.pieces = position.pieces
+    end
+    periods[new_period][:cash] = periods[old_period][:cash]
+  end
+
   def rebalance(args)
-    carry_forward(args[:new_period])
     sell_non_target_stocks(args)
     adjust_target_stocks_already_held(args)
     add_target_stocks_not_already_held(args)
@@ -58,17 +68,6 @@ class Portfolio
     target = args[:target]
     stocks_to_add = target.select { |cid, position| periods[args[:new_period]][:positions].keys.exclude? cid }
     stocks_to_add.each{ |cid, position| buy(date: args[:new_period], stock: cid, amount: position[:share_count]) }
-  end
-
-  def carry_forward(new_period)
-    old_period = (Date.strptime(new_period, '%Y-%m-%d') - 1.year).to_s
-    periods[new_period] = {}
-    periods[new_period][:positions] = {}
-    periods[old_period][:positions].each do |cid, position|
-      new_position = periods[new_period][:positions][cid] = Position.new(stock: cid, current_date: new_period)
-      new_position.pieces = position.pieces
-    end
-    periods[new_period][:cash] = periods[old_period][:cash]
   end
 
   def sell(args)

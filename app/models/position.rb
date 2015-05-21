@@ -6,7 +6,6 @@ class Position
     @cid = args[:stock]
     @current_date = args[:current_date]
     @pieces = {}
-    self
   end
 
   def share_count
