@@ -122,7 +122,7 @@ def set_up_trial_data
   PricePoint.create(period: '2015-12-31', cid: 'gs', market_cap: 1378, earnings_yield: 0.45, roc: 0.66, price: 36.18, delisted: false)
   PricePoint.create(period: '2015-12-31', cid: 'xom', market_cap: 1800, earnings_yield: 0.75, roc: 0.4, price: 16.23, delisted: false)
   PricePoint.create(period: '2015-12-31', cid: 'pxd', market_cap: 674, earnings_yield: 0.31, roc: 0.88, price: 24.62, delisted: false)
-  PricePoint.create(period: '2015-12-31', cid: 'emes', market_cap: 1980, earnings_yield: 0.45, roc: 0.45, price: 12.2, delisted: false)
+  PricePoint.create(period: '2015-12-31', cid: 'emes', market_cap: 1980, earnings_yield: 0.46, roc: 0.45, price: 12.2, delisted: false)
   PricePoint.create(period: '2015-12-31', cid: 'ms', market_cap: 1700, earnings_yield: 0.57, roc: 0.19, price: 18.7, delisted: true, delisting_date: '2015-03-15')
   PricePoint.create(period: '2015-12-31', cid: 'flo', market_cap: 278, earnings_yield: 0.18, roc: 0.53, price: 87.95, delisted: false)
   PricePoint.create(period: '2015-12-31', cid: 'nok', market_cap: 528, earnings_yield: 0.53, roc: 0.19, price: 73.15, delisted: false)

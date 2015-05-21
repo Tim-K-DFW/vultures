@@ -25,5 +25,6 @@ class ScoreCalculator
 
   def assign_total_scores
     @stocks.each { |stock| stock["total_score"] = stock["roc_score"] + stock["ey_score"] }
+    @stocks.sort_by! { |h| h["total_score"] }
   end
 end

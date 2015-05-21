@@ -16,7 +16,6 @@ class Portfolio
     if as_of_date
       periods[as_of_date][:positions][cid]
     else
-      binding.pry
       periods.select {|date, content| }
     end
   end
@@ -29,9 +28,11 @@ class Portfolio
     old_period = (Date.strptime(new_period, '%Y-%m-%d') - 1.year).to_s
     periods[new_period] = {}
     periods[new_period][:positions] = {}
-    periods[old_period][:positions].each do |cid, position|
+    periods[old_period][:positions].each do |cid, old_position|
       new_position = periods[new_period][:positions][cid] = Position.new(stock: cid, current_date: new_period)
-      new_position.pieces = position.pieces
+      old_position.pieces.each do |date, piece_data|
+        new_position.pieces[date] = piece_data.dup
+      end
     end
     periods[new_period][:cash] = periods[old_period][:cash]
   end

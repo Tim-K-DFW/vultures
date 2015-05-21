@@ -15,7 +15,7 @@ class PortfolioInspector
     result[:cash_from_delisting] = delisting_proceeds(result[:delisted_positions])
     result[:cash_total] = result[:cash_ex_delisting_proceeds] + result[:cash_from_delisting]
     result[:market_value_of_positions] = positions_value(result[:positions])
-    result[:total_market_value] = result[:market_value_of_positions] + result[:cash_total]
+    result[:total_market_value] = (result[:market_value_of_positions] + result[:cash_total]).round(2)
     result
   end
 

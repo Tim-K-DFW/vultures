@@ -24,6 +24,7 @@ class Engine
         ).build
       @portfolio.rebalance(new_period: period, target: target_portfolio, parameters: parameters)
     end
+    self
   end
 
   def generate_report

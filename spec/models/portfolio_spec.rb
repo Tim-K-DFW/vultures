@@ -28,6 +28,7 @@ describe Portfolio do
 
   describe '#rebalance' do
     it 'automatically removes hashes for delisted positions' do
+      portfolio.carry_forward('2013-12-31')
       portfolio.rebalance(target: target, new_period: '2013-12-31')
       expect(portfolio.periods['2013-12-31'][:positions].keys).not_to include(:flo)
     end
