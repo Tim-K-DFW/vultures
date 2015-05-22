@@ -3,7 +3,7 @@
     .col-sm-8.col-sm-offset-3
       %h3 Strategy parameters
       .voffset4
-      = bootstrap_form_for @engine, url: '/params_entry', layout: :horizontal, label_col: 'col-sm-4', control_col: 'col-sm-3' do |f|
+      = bootstrap_form_for @engine, url: '/params_entry', remote: true, layout: :horizontal, label_col: 'col-sm-4', control_col: 'col-sm-3' do |f|
         = f.text_field :position_count, label_class: "left-aligned", label: '# of positions in portfolio', value: '50'
         = f.select :rebalance_frequency, [['annual', 1], ['quarterly', 2], ['monthly', 3]], { label: 'Rebalance frequency'}
         = f.text_field :market_cap_floor, label: 'Market cap floor, $mm'

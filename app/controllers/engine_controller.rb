@@ -6,20 +6,27 @@ class EngineController < ApplicationController
   end
 
   def generate
-    binding.pry
-    @engine = Engine.new(engine_params)
+    @engine = Engine.new(stub_out_params) # replace with actual params
     if @engine.valid?
-      @engine.run
-      render '_results_link', locals: { data: @engine }
+      @engine.run(development: true)
+      # Results.new.fill(@engine)
+      render file: "engine/results_link.js.erb"
     else
       render 'params_entry'
     end
   end
 
+  def results_performance
+    # @output = Results.performance
+  end
+
+  def results_positions
+    # @output = Results.positions
+  end
+
   private
 
   def stub_out_params
-    # replace with actual params later
     result = {}
     result[:market_cap_floor] = 200
     result[:market_cap_ceiling] = 2000

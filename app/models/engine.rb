@@ -7,7 +7,8 @@ class Engine
     @parameters = parameters
   end
 
-  def run
+  def run(args=nil)
+    return if args[:development]
     @portfolio = Portfolio.new(
       position_count: parameters[:position_count],
       initial_balance: parameters[:initial_balance],
