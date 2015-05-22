@@ -1,0 +1,12 @@
+.container
+  .row
+    .col-sm-8.col-sm-offset-2
+      .h3 Enter strategy parameters
+      = bootstrap_form_for @engine, url: '/params_entry', layout: :horizontal, label_col: 'col-sm-4', control_col: 'col-sm-3' do |f|
+        = f.text_field :position_count, label_class: "left-aligned", label: '# of positions in portfolio', value: '50'
+        = f.select :rebalance_frequency, [['annual', 1], ['quarterly', 2], ['monthly', 3]], { label: 'Rebalance frequency'}
+        .form-group.form-inline
+          = f.text_field :market_cap_floor, label: 'Market cap range, $mm'
+          = f.text_field :market_cap_ceiling, hide_label: true
+
+        = f.submit 'Generate'

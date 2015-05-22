@@ -1,5 +1,7 @@
 class Engine
+  include ActiveModel::Model
   attr_reader :parameters, :portfolio
+  attr_accessor :rebalance_frequency, :market_cap_floor, :market_cap_ceiling, :initial_balance, :use_dual_momentum
 
   def initialize(parameters=nil)
     @parameters = parameters
@@ -9,7 +11,8 @@ class Engine
     @portfolio = Portfolio.new(
       position_count: parameters[:position_count],
       initial_balance: parameters[:initial_balance],
-      start_date: parameters[:start_date]
+      start_date: parameters[:start_date],
+      rebalance_frequency: parameters[:rebalance_frequency]
     )
     PricePoint.all_periods.each do |period|
       period = period.to_s

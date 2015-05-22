@@ -15,6 +15,7 @@ gem 'bcrypt-ruby', '3.1.2'
 gem 'fabrication'
 gem 'faker'
 gem 'figaro'
+gem 'turbolinks'
 
 group :development do
   gem 'thin'

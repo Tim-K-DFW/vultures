@@ -1,0 +1,23 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: mf-dev
+  pool: 5
+  username: ak
+  password: leAN
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: mf-test
+  pool: 5
+  username: ak
+  password: leAN
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: mf-prod
+  pool: 5
+  username: ak
+  password: leAN
