@@ -1,6 +1,6 @@
 class Engine
   include ActiveModel::Model
-  attr_reader :parameters, :portfolio
+  attr_reader :parameters, :portfolio, :results
   attr_accessor :rebalance_frequency, :market_cap_floor, :market_cap_ceiling, :initial_balance, :use_dual_momentum
 
   def initialize(parameters=nil)
@@ -31,6 +31,25 @@ class Engine
         ).build
       @portfolio.rebalance(new_period: period, target: target_portfolio, parameters: parameters)
     end
+    generate_results
     self
+  end
+
+  def generate_results
+    @results = {}
+    @results[:parameters] = parameters
+    @results[:performance] = generate_performance
+    @results[:positions] = generate_positions
+  end
+
+  def generate_performance
+    result = {}
+      
+
+    result
+  end
+
+  def generate_positions
+
   end
 end

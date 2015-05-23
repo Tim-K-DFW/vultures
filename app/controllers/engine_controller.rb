@@ -8,7 +8,8 @@ class EngineController < ApplicationController
   def generate
     @engine = Engine.new(stub_out_params) # replace with actual params
     if @engine.valid?
-      @results = @engine.run.to_json
+      # need to pass results in array or hash form, ready to be output in results views
+      @results = @engine.run.results
       render file: "engine/results_link.js.erb"
     else
       render 'params_entry'
@@ -19,15 +20,16 @@ class EngineController < ApplicationController
     @source = params[:results]
     respond_to do |format|
       format.html { render 'results_performance' }
-      format.js { render 'results_performance', formats: [:html] }
+      format.js { render 'results_performance' }
     end
-
-    # http://stackoverflow.com/questions/7303550/render-html-instead-of-js-for-an-ajax-request-in-rails
-    
-    # render :template => 'engine/results_performance', :formats => [:html]
   end
 
   def results_positions
+   @source = params[:results]
+    respond_to do |format|
+      format.html { render 'results_positions' }
+      format.js { render 'results_positions' }
+    end
   end
 
   private
