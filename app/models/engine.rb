@@ -8,14 +8,13 @@ class Engine
   end
 
   def run(args=nil)
-    return if args[:development]
     @portfolio = Portfolio.new(
       position_count: parameters[:position_count],
       initial_balance: parameters[:initial_balance],
       start_date: parameters[:start_date],
       rebalance_frequency: parameters[:rebalance_frequency]
     )
-    PricePoint.all_periods.each do |period|
+    PricePoint.all_periods(development: true).each do |period|
       period = period.to_s
       current_market_data = ScoreCalculator.new(
         market_cap_floor: parameters[:market_cap_floor], 
@@ -33,9 +32,5 @@ class Engine
       @portfolio.rebalance(new_period: period, target: target_portfolio, parameters: parameters)
     end
     self
-  end
-
-  def generate_report
-    OutputGenerator.new(portfolio: portfolio, parameters: parameters).prepare
   end
 end

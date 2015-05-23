@@ -18,7 +18,5 @@ class Engine
         ).build
       portfolio.rebalance(new_period: period, target: target_portfolio, parameters: parameters)
     end
-    binding.pry
-    # OutputGenerator.new(portfolio: portfolio, parameters: parameters).prepare
   end
 end
