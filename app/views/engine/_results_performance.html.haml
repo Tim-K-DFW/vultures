@@ -4,5 +4,48 @@
       = link_to 'View performance', results_performance_path, data: {method: :post, remote: true, params: {results: @source}.to_param}
     %li
       = link_to 'View positions', results_positions_path, data: {method: :post, remote: true, params: {results: @source}.to_param}
-  %h3 Portfolio performance will be here
-  %p= @source
+  %h3 Strategy Performance
+  .voffset5
+  %h4 Parameters
+  .row
+    .col-sm-5
+      %table.table.table-condensed.table-borderless
+        %tr
+          %td Rebalance frequency
+          %td.right-aligned annual
+        %tr
+          %td Market cap floor, $mm
+          %td.right-aligned= number_with_delimiter(@source[:parameters][:market_cap_floor])
+        %tr
+          %td Market cap ceiling, $mm
+          %td.right-aligned= number_with_delimiter(@source[:parameters][:market_cap_ceiling])
+  .voffset5
+  %h4 By-period
+  %table.table.table-condensed
+    %tr.table-header
+      %th{ rowspan: 2 } Period ending
+      %th{ rowspan: 2 } Market value at period end
+      %th{ colspan: 2 } by period
+      %th{ colspan: 2 } by period, annualized
+      %th{ colspan: 2 } cumulative calendar year
+      %th{ colspan: 2 } rolling 12 months
+    %tr.table-header
+      - 4.times do
+        %th tested strategy
+        %th S&P 500
+    %tr.right-aligned
+      %td.left-aligned
+        %i Initial balance
+      %td
+        %i= number_to_currency(@source[:parameters][:initial_balance])
+      - 8.times do
+        %td
+    - @source[:performance].each do |period|
+      %tr.right-aligned
+        %td.left-aligned= period[:date]
+        %td= number_to_currency(period[:balance])
+        %td= number_to_percentage((period[:return_by_period].to_f * 100).round(4), precision: 2, delimiter: ',')
+
+
+  .voffset5
+  %h4 Aggregated
