@@ -25,6 +25,7 @@ class Engine
       ).assign_scores
 
       @portfolio.carry_forward(period) unless period == parameters[:start_date]
+
       target_portfolio = TargetPortfolio.new(
         current_portfolio_balance: @portfolio.as_of(period)[:total_market_value],
         position_count: @portfolio.position_count,

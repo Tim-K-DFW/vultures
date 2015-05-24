@@ -10,6 +10,7 @@ describe Engine do
       market_cap_floor: 200,
       market_cap_ceiling: 2000 
     }).run }
+    before { allow(PricePoint).to receive(:all_periods).and_return(['2012-12-31', '2013-12-31', '2014-12-31', '2015-12-31']) } 
 
     it 'creates required number of periods in Portfolio' do
       expect(engine.portfolio.periods.count).to eq(4)

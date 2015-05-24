@@ -39,9 +39,9 @@ module ApplicationHelper
   end
 
   def fill_sp500_trial_data
-    PricePoint.create(period: '1952-12-31', cid: 'sp500', price: 50.84, delisted: false)
-    PricePoint.create(period: '1953-12-31', cid: 'sp500', price: 61.84, delisted: false)
-    PricePoint.create(period: '1954-12-31', cid: 'sp500', price: 80.84, delisted: false)
-    PricePoint.create(period: '1955-12-31', cid: 'sp500', price: 100.84, delisted: false)
+    PricePoint.create(period: '1952-12-31', cid: 'sp500', price: 100, delisted: false)
+    PricePoint.create(period: '1953-12-31', cid: 'sp500', price: 60, delisted: false)
+    PricePoint.create(period: '1954-12-31', cid: 'sp500', price: 120, delisted: false)
+    PricePoint.create(period: '1955-12-31', cid: 'sp500', price: 20, delisted: false)
   end
 end

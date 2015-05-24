@@ -24,7 +24,6 @@ class ReportGenerator
       this_period[:date] = end_date
       this_period[:balance] = portfolio.as_of(end_date)[:total_market_value]
       this_period[:sp500_value] = PricePoint.where(cid: 'sp500', period: end_date).first.price
-
       this_period[:by_period] = relative_return(single_period_start(end_date), end_date)
       this_period[:annualized] = annualized_return(this_period[:by_period])
       this_period[:cumulative_cy] = relative_return(cumulative_cy_start(end_date), end_date)
@@ -39,14 +38,12 @@ class ReportGenerator
     start_date = result[:start_date] = portfolio.periods.first[0]
     end_date = result[:end_date] = portfolio.periods.keys.last
     result[:table] = {}
-
     result[:table][:geometric] = geometric_average(start_date, end_date)
     result[:table][:arithmetic] = arithmetic_average(start_date, end_date, by_period_results)
     result[:table][:st_deviation_by_period] = st_deviation_by_period(start_date, end_date, by_period_results)
     result[:table][:st_deviation_annualized] = st_deviation_annualized(start_date, end_date, by_period_results)
     result[:table][:sharpe] = sharpe(result[:table])
     result[:table][:max_drawdown] = max_drawdown_hash(engine.parameters[:initial_balance], by_period_results)
-
     result
   end
 
@@ -160,12 +157,24 @@ class ReportGenerator
 
   def max_drawdown_hash(initial_balance, by_period_results)
     result = {}
-    result[:portfolio] = max_drawdown(by_period_results.map{|k| k[:balance]})
-    result[:sp500] = max_drawdown(by_period_results.map{|k| k[:sp500_value]})
+    result[:description] = 'Maximum drawdown'
+    result[:portfolio] = max_drawdown(([initial_balance] << by_period_results.map{|k| k[:balance]}).flatten)
+
+    sp500_starting_value = PricePoint.where(cid: 'sp500', period: engine.parameters[:start_date]).first.price
+    result[:sp500] = max_drawdown(([sp500_starting_value] << by_period_results.map{|k| k[:sp500_value]}).flatten)
+
     result
   end
 
   def max_drawdown(price_points)
-    555
+    max_price = price_points[0]
+    max_drawdown = [(max_price.to_f - price_points[1].to_f) / max_price.to_f, 0].max
+    price_points.each_with_index do |current_price, index|
+      next if index == 0
+      potential_drawdown = [(max_price.to_f - current_price.to_f) / max_price.to_f, 0].max
+      max_drawdown = [max_drawdown, potential_drawdown].max
+      max_price  = [max_price, current_price].max
+    end
+    max_drawdown.round(4)
   end
 end

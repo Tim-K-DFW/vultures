@@ -20,7 +20,7 @@
           %td Market cap ceiling, $mm
           %td.right-aligned= number_with_delimiter(@source[:parameters][:market_cap_ceiling])
   .voffset5
-  %h4 By-period
+  %h4 By period
   %table.table.table-condensed
     %tr.table-header
       %th{ rowspan: 2 } Period ending
@@ -54,11 +54,8 @@
         %td= pretty_percentage(period[:rolling_12_months][:sp500_return])
   .voffset5
   %h4 Aggregated
-  %p
-    Period:
-    - 15.times do
-      &nbsp
-    = "#{@source[:aggregated][:start_date]} - #{@source[:aggregated][:end_date]}"
+  %p= "For the period between #{@source[:aggregated][:start_date]} and #{@source[:aggregated][:end_date]}"
+  .voffset5
   .row
     .col-sm-7
       %table.table.table-condensed
