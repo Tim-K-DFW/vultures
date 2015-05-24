@@ -6,10 +6,11 @@ class EngineController < ApplicationController
   end
 
   def generate
-    @engine = Engine.new(stub_out_params) # replace with actual params
-    if @engine.valid?
-      # need to pass results in array or hash form, ready to be output in results views
-      @results = @engine.run.results
+    engine = Engine.new(stub_out_params) # replace with actual params
+    if engine.valid?
+      @results = ReportGenerator.new(engine.run).generate
+      # all data assigned correctly for all periods
+      # @source passed fully to results_link.js.erb
       render file: "engine/results_link.js.erb"
     else
       render 'params_entry'
@@ -41,6 +42,7 @@ class EngineController < ApplicationController
     result[:position_count] = 5
     result[:initial_balance] = 1000000
     result[:start_date] = '1952-12-31'
+    result[:rebalance_frequency] = 'annual'
     result
   end
 end

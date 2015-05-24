@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def pretty_percentage(arg)
+    number_to_percentage((arg.to_f * 100).round(4), precision: 2, delimiter: ',')
+  end
+
   def fill_trial_data
     PricePoint.create(period: '1952-12-31', cid: 'gs', market_cap: 874, earnings_yield: 0.4, roc: 0.5, price: 84, delisted: false)
     PricePoint.create(period: '1952-12-31', cid: 'emes', market_cap: 1397, earnings_yield: 0.05, roc: 0.7, price: 15, delisted: false)
@@ -32,5 +36,12 @@ module ApplicationHelper
     PricePoint.create(period: '1955-12-31', cid: 'flo', market_cap: 278, earnings_yield: 0.18, roc: 0.53, price: 87.95, delisted: false)
     PricePoint.create(period: '1955-12-31', cid: 'nok', market_cap: 528, earnings_yield: 0.53, roc: 0.19, price: 73.15, delisted: false)
     PricePoint.create(period: '1955-12-31', cid: 'msft', market_cap: 3000, earnings_yield: 0.34, roc: 0.35, price: 70.84, delisted: false)
+  end
+
+  def fill_sp500_trial_data
+    PricePoint.create(period: '1952-12-31', cid: 'sp500', price: 50.84, delisted: false)
+    PricePoint.create(period: '1953-12-31', cid: 'sp500', price: 61.84, delisted: false)
+    PricePoint.create(period: '1954-12-31', cid: 'sp500', price: 80.84, delisted: false)
+    PricePoint.create(period: '1955-12-31', cid: 'sp500', price: 100.84, delisted: false)
   end
 end

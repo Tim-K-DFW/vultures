@@ -40,12 +40,34 @@
         %i= number_to_currency(@source[:parameters][:initial_balance])
       - 8.times do
         %td
-    - @source[:performance].each do |period|
+    - @source[:performance].each do |k, period|
       %tr.right-aligned
         %td.left-aligned= period[:date]
         %td= number_to_currency(period[:balance])
-        %td= number_to_percentage((period[:return_by_period].to_f * 100).round(4), precision: 2, delimiter: ',')
-
-
+        %td= pretty_percentage(period[:by_period][:return])
+        %td= pretty_percentage(period[:by_period][:sp500_return])
+        %td= pretty_percentage(period[:annualized][:return])
+        %td= pretty_percentage(period[:annualized][:sp500_return])
+        %td= pretty_percentage(period[:cumulative_cy][:return])
+        %td= pretty_percentage(period[:cumulative_cy][:sp500_return])
+        %td= pretty_percentage(period[:rolling_12_months][:return])
+        %td= pretty_percentage(period[:rolling_12_months][:sp500_return])
   .voffset5
   %h4 Aggregated
+  %p
+    Period:
+    - 15.times do
+      &nbsp
+    = "#{@source[:aggregated][:start_date]} - #{@source[:aggregated][:end_date]}"
+  .row
+    .col-sm-7
+      %table.table.table-condensed
+        %tr.table-header
+          %th
+          %th tested strategy
+          %th S&P 500
+        - @source[:aggregated][:table].each do |line, items|
+          %tr.right-aligned
+            %td.left-aligned= items[:description]
+            %td= line == 'sharpe' ? items[:portfolio] : pretty_percentage(items[:portfolio])
+            %td= line == 'sharpe' ? items[:sp500] : pretty_percentage(items[:sp500])

@@ -16,6 +16,7 @@ gem 'fabrication'
 gem 'faker'
 gem 'figaro'
 gem 'turbolinks'
+gem 'descriptive_statistics'
 
 group :development do
   gem 'thin'
