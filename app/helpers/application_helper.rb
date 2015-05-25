@@ -44,4 +44,19 @@ module ApplicationHelper
     PricePoint.create(period: '1954-12-31', cid: 'sp500', price: 120, delisted: false)
     PricePoint.create(period: '1955-12-31', cid: 'sp500', price: 20, delisted: false)
   end
+
+  def fill_trial_companies_data
+    Company.create(cid: 'gs', name: 'Goldman Sachs Group')
+    Company.create(cid: 'emes', name: 'Emerge Energy Services LP')
+    Company.create(cid: 'aapl', name: 'Apple Computer Inc.')
+    Company.create(cid: 'pxd', name: 'Pioneer Natural Resources')
+    Company.create(cid: 'pxd', name: 'Pioneer Natural Resources')
+    Company.create(cid: 'msft', name: 'Microsoft Inc.')
+    Company.create(cid: 'xom', name: 'Exxon Mobile')
+    Company.create(cid: 'flo', name: 'Fluor Inc.')    
+    Company.create(cid: 'nok', name: 'Nokia Corp.')
+    Company.create(cid: 'ms', name: 'Morgan Stanley Corp.')
+    Company.create(cid: 'gdp', name: 'Goodrich Petroleum Inc.')
+    Company.create(cid: 'geos', name: 'Geospace Corp.')
+  end
 end

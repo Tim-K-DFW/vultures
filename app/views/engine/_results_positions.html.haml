@@ -4,5 +4,39 @@
       = link_to 'View performance', results_performance_path, data: {method: :post, remote: true, params: {results: @source}}
     %li.active
       = link_to 'View positions', results_positions_path, data: {method: :post, remote: true, params: {results: @source}}
-  %h3 Positions will be here
-  %p= @source
+  %h3 Holdings report
+  - @source[:positions].each do |period|
+    .voffset5
+    %p= period[1][:end_date] == '' ? "Current portfolio" : "Period ending #{period[1][:end_date]}"
+    %table.table.table-condensed
+      %tr.table-header
+        %th{ rowspan: 2 } Capital IQ ID
+        %th{ rowspan: 2 } Company
+        %th{ rowspan: 2 } Shares
+        %th{ colspan: 2 }= period[1][:start_date]
+        %th{ colspan: 2 }= period[1][:end_date]
+        %th{ rowspan: 2 } Profit
+        %th{ rowspan: 2 } Notes
+      %tr.table-header
+        - 2.times do
+          %th Price per share
+          %th Market value
+      - period[1][:positions].each do |position|
+        %tr.right-aligned
+          %td.left-aligned= position[1][:cid]
+          %td.left-aligned= position[1][:company_name]
+          %td= number_with_delimiter(position[1][:share_count])
+          %td= number_to_currency(position[1][:beginning_price])
+          %td= number_to_currency(position[1][:beginning_value])
+          %td= number_to_currency(position[1][:ending_price])
+          %td= number_to_currency(position[1][:ending_value])
+          %td= number_to_currency(position[1][:profit])
+          %td= position[1][:notes]
+      %tr.right-aligned
+        %td.left-aligned Total
+        - 3.times do
+          %td
+        %td= number_to_currency(period[1][:total_value_beginning])
+        %td
+        %td= number_to_currency(period[1][:total_value_ending])
+        %td= number_to_currency(period[1][:total_profit])

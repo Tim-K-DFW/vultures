@@ -13,12 +13,12 @@ describe ReportGenerator do
 
     it 'returns the only loss if there was only one' do
       price_points = [100, 50, 60, 180]
-      expect(generator.max_drawdown(price_points)).to eq(0.5)
+      expect(generator.max_drawdown(price_points)).to eq(-0.5)
     end
 
     it 'returns the largest loss if there were multiple' do
       price_points = [100, 50, 60, 250, 200, 20]
-      expect(generator.max_drawdown(price_points)).to eq(0.92)
+      expect(generator.max_drawdown(price_points)).to eq(-0.92)
     end
   end
 end

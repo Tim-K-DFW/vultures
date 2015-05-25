@@ -38,17 +38,54 @@ class ReportGenerator
     start_date = result[:start_date] = portfolio.periods.first[0]
     end_date = result[:end_date] = portfolio.periods.keys.last
     result[:table] = {}
-    result[:table][:geometric] = geometric_average(start_date, end_date)
-    result[:table][:arithmetic] = arithmetic_average(start_date, end_date, by_period_results)
-    result[:table][:st_deviation_by_period] = st_deviation_by_period(start_date, end_date, by_period_results)
-    result[:table][:st_deviation_annualized] = st_deviation_annualized(start_date, end_date, by_period_results)
-    result[:table][:sharpe] = sharpe(result[:table])
-    result[:table][:max_drawdown] = max_drawdown_hash(engine.parameters[:initial_balance], by_period_results)
+    result[:table][:a_geometric] = geometric_average(start_date, end_date)
+    result[:table][:b_rithmetic] = arithmetic_average(start_date, end_date, by_period_results)
+    result[:table][:c_st_deviation_by_period] = st_deviation_by_period(start_date, end_date, by_period_results)
+    result[:table][:d_st_deviation_annualized] = st_deviation_annualized(start_date, end_date, by_period_results)
+    result[:table][:e_sharpe] = sharpe(result[:table])
+    result[:table][:f_max_drawdown] = max_drawdown_hash(engine.parameters[:initial_balance], by_period_results)
     result
   end
 
   def generate_positions
+    result = []
+    portfolio.periods.each do |date, data|
+      this_period = {}
+      this_period[:start_date] = date
+      end_date = this_period[:end_date] = portfolio.periods.keys[portfolio.periods.keys.index(date) + 1] || ''
+      this_period[:positions] = []
 
+      data[:positions].each do |cid, position|
+        this_position = {}
+        this_position[:cid] = cid.to_s
+        this_position[:company_name] = Company.where(cid: cid).first.name || 'Temporary Name Inc.'
+        this_position[:share_count] = position.share_count
+        this_position[:beginning_price] = (PricePoint.where(cid: cid, period: date).first.price).round(2)
+        this_position[:beginning_value] = (this_position[:share_count] * this_position[:beginning_price]).round(2)
+
+        end_period_price_point = end_date == '' ? nil : PricePoint.where(cid: cid, period: end_date).first
+
+        this_position[:ending_price] = end_date == '' ? 'n/a' : (end_period_price_point.price).round(2)
+        this_position[:ending_value] = end_date == '' ? 'n/a' : (this_position[:share_count] * this_position[:ending_price]).round(2)
+
+        this_position[:profit] = end_date == '' ? 'n/a' : this_position[:ending_value] - this_position[:beginning_value]
+        
+        if end_period_price_point && end_period_price_point.delisted
+          this_position[:notes] = "delisted on #{end_period_price_point.delisting_date}"
+        else
+          this_position[:notes] = ''
+        end        
+        this_period[:positions] << this_position
+      end
+
+      this_period[:cash] = data[:cash]
+      this_period[:total_value_beginning] = (this_period[:positions].inject(0) {|total, el| total + el[:beginning_value]} + this_period[:cash]).round(2)
+      this_period[:total_value_ending] = end_date == '' ? 'n/a' : (this_period[:positions].inject(0) {|total, el| total + el[:ending_value]} + this_period[:cash]).round(2)
+      this_period[:total_profit] = end_date == '' ? 'n/a' : this_period[:total_value_ending] - this_period[:total_value_beginning]
+
+      result << this_period
+    end
+    result
   end
 
   def relative_return(beginning, ending)
@@ -150,8 +187,8 @@ class ReportGenerator
   def sharpe(inputs)
     result = {}
     result[:description] = 'Sharpe ratio (based on geometric average and rf = 4%)'
-    result[:portfolio] = ((inputs[:geometric][:portfolio] - 0.04) / inputs[:st_deviation_annualized][:portfolio]).round(3)
-    result[:sp500] = ((inputs[:geometric][:sp500] - 0.04) / inputs[:st_deviation_annualized][:sp500]).round(3)
+    result[:portfolio] = ((inputs[:a_geometric][:portfolio] - 0.04) / inputs[:d_st_deviation_annualized][:portfolio]).round(3)
+    result[:sp500] = ((inputs[:a_geometric][:sp500] - 0.04) / inputs[:d_st_deviation_annualized][:sp500]).round(3)
     result
   end
 
@@ -168,11 +205,11 @@ class ReportGenerator
 
   def max_drawdown(price_points)
     max_price = price_points[0]
-    max_drawdown = [(max_price.to_f - price_points[1].to_f) / max_price.to_f, 0].max
+    max_drawdown = [(price_points[1].to_f - max_price.to_f) / max_price.to_f, 0].min
     price_points.each_with_index do |current_price, index|
       next if index == 0
-      potential_drawdown = [(max_price.to_f - current_price.to_f) / max_price.to_f, 0].max
-      max_drawdown = [max_drawdown, potential_drawdown].max
+      potential_drawdown = [(current_price.to_f - max_price.to_f) / max_price.to_f, 0].min
+      max_drawdown = [max_drawdown, potential_drawdown].min
       max_price  = [max_price, current_price].max
     end
     max_drawdown.round(4)

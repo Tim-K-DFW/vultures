@@ -16,7 +16,10 @@ describe Position do
   end
 
   describe '#market_value' do
-    before { Fabricate(:price_point, cid: 'aapl', price: 15, period: '2011-12-31') }
+    before do
+      Fabricate(:price_point, cid: 'aapl', price: 15, period: '2011-12-31')
+      Fabricate(:price_point, cid: 'aapl', price: 30, period: '2015-12-31')
+    end
 
     it 'correctly calculates total market value for one piece' do
       apple = fabricate_apple_position(one_piece: true)
@@ -26,6 +29,11 @@ describe Position do
     it 'correctly calculates total market value for multiple pieces' do
       apple = fabricate_apple_position
       expect(apple.market_value).to eq(24000.00)
+    end
+
+    it 'correctly calculates total market value for a date different than current' do
+      apple = fabricate_apple_position
+      expect(apple.market_value('2015-12-31')).to eq(48000.00)
     end
   end
 

@@ -12,8 +12,9 @@ class Position
     pieces.values.inject(0) { |total, piece| total + piece[:share_count] }
   end
 
-  def market_value
-    pieces.inject(0) { |total, piece| total + (piece[1][:share_count] * PricePoint.where(cid: cid, period: current_date).first.price).round(2) }
+  def market_value(as_of_date=nil)
+    date = as_of_date || current_date
+    (share_count * PricePoint.where(cid: cid, period: date).first.price).round(2)
   end
 
   def cost

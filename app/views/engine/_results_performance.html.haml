@@ -66,5 +66,5 @@
         - @source[:aggregated][:table].each do |line, items|
           %tr.right-aligned
             %td.left-aligned= items[:description]
-            %td= line == 'sharpe' ? items[:portfolio] : pretty_percentage(items[:portfolio])
-            %td= line == 'sharpe' ? items[:sp500] : pretty_percentage(items[:sp500])
+            %td= line == 'e_sharpe' ? items[:portfolio] : pretty_percentage(items[:portfolio])
+            %td= line == 'e_sharpe' ? items[:sp500] : pretty_percentage(items[:sp500])

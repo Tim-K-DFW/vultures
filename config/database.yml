@@ -1,35 +1,23 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: mfapp-dev
+  database: mf-dev
   pool: 5
-  host: localhost
-  username: action
-  password:
+  username: ak
+  password: leAN
 
 test:
   adapter: postgresql
   encoding: unicode
-  database: mfapp-test
+  database: mf-test
   pool: 5
-  host: localhost
-  username: action
-  password:
+  username: ak
+  password: leAN
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: mfapp-prod
+  database: mf-prod
   pool: 5
-  host: localhost
-  username: action
-  password:
-
-staging:
-  adapter: postgresql
-  encoding: unicode
-  database: mfapp-staging
-  pool: 5
-  host: localhost
-  username: action
-  password:
+  username: ak
+  password: leAN
