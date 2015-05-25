@@ -62,13 +62,11 @@ class ReportGenerator
         this_position[:share_count] = position.share_count
         this_position[:beginning_price] = (PricePoint.where(cid: cid, period: date).first.price).round(2)
         this_position[:beginning_value] = (this_position[:share_count] * this_position[:beginning_price]).round(2)
-
         end_period_price_point = end_date == '' ? nil : PricePoint.where(cid: cid, period: end_date).first
 
         this_position[:ending_price] = end_date == '' ? 'n/a' : (end_period_price_point.price).round(2)
         this_position[:ending_value] = end_date == '' ? 'n/a' : (this_position[:share_count] * this_position[:ending_price]).round(2)
-
-        this_position[:profit] = end_date == '' ? 'n/a' : this_position[:ending_value] - this_position[:beginning_value]
+        this_position[:profit] = end_date == '' ? 'n/a' : (this_position[:ending_value] - this_position[:beginning_value]).round(2)
         
         if end_period_price_point && end_period_price_point.delisted
           this_position[:notes] = "delisted on #{end_period_price_point.delisting_date}"
@@ -81,7 +79,7 @@ class ReportGenerator
       this_period[:cash] = data[:cash]
       this_period[:total_value_beginning] = (this_period[:positions].inject(0) {|total, el| total + el[:beginning_value]} + this_period[:cash]).round(2)
       this_period[:total_value_ending] = end_date == '' ? 'n/a' : (this_period[:positions].inject(0) {|total, el| total + el[:ending_value]} + this_period[:cash]).round(2)
-      this_period[:total_profit] = end_date == '' ? 'n/a' : this_period[:total_value_ending] - this_period[:total_value_beginning]
+      this_period[:total_profit] = end_date == '' ? 'n/a' : (this_period[:total_value_ending] - this_period[:total_value_beginning]).round(2)
 
       result << this_period
     end

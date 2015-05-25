@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: mf-dev
+  database: mfapp-dev
   pool: 5
   username: ak
   password: leAN
@@ -9,7 +9,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: mf-test
+  database: mfapp-test
   pool: 5
   username: ak
   password: leAN
@@ -17,7 +17,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: mf-prod
+  database: mfapp-prod
   pool: 5
   username: ak
   password: leAN

@@ -6,11 +6,9 @@ class EngineController < ApplicationController
   end
 
   def generate
-    engine = Engine.new(stub_out_params) # replace with actual params
+    engine = Engine.new(get_params)
     if engine.valid?
       @results = ReportGenerator.new(engine.run).generate
-      # all data assigned correctly for all periods
-      # @source passed fully to results_link.js.erb
       render file: "engine/results_link.js.erb"
     else
       render 'params_entry'
@@ -43,6 +41,17 @@ class EngineController < ApplicationController
     result[:initial_balance] = 1000000
     result[:start_date] = '1952-12-31'
     result[:rebalance_frequency] = 'annual'
+    result
+  end
+
+  def get_params
+    result = params.require(:engine).permit(:market_cap_floor, :market_cap_ceiling, :position_count, :initial_balance, :start_date)
+    result[:rebalance_frequency] = 'annual'
+    result[:market_cap_floor] = nil if params[:engine][:market_cap_floor] == ''
+    result[:market_cap_ceiling] = nil if params[:engine][:market_cap_ceiling] == ''
+    result[:start_date] = '1952-12-31'
+    result[:initial_balance] = params[:engine][:initial_balance].to_f
+    result[:position_count] = params[:engine][:position_count].to_i
     result
   end
 end

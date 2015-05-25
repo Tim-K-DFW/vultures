@@ -7,7 +7,7 @@
   %h3 Holdings during each period
   - @source[:positions].each do |period|
     .voffset5
-    %p= period[1][:end_date] == '' ? "Current portfolio" : "Period ending #{period[1][:end_date]}"
+    %p.bold= period[1][:end_date] == '' ? "Current portfolio" : "Period ending #{period[1][:end_date]}"
     %table.table.table-condensed.smaller-font.table-hover
       %tr.table-header.blue-background
         %th{ rowspan: 2 } Capital IQ ID
