@@ -25,6 +25,31 @@ td.left-aligned {
   text-align: left;
 }
 
+.bold {
+  font-weight: bold;
+}
+
+.blue-background {
+  background-color: #BDD4E8;
+}
+
+.smaller-font {
+  font-size: 12px;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.fixed {
+  position: fixed;
+  height: 100px;
+}
+
+.can-scroll {
+  margin-top: 100px;
+}
+
 .voffset  { margin-top: 2px; }
 .voffset1 { margin-top: 5px; }
 .voffset2 { margin-top: 10px; }
