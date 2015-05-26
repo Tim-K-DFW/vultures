@@ -16,7 +16,7 @@ gem 'fabrication'
 gem 'faker'
 gem 'figaro'
 gem 'turbolinks'
-gem 'descriptive_statistics'
+gem 'descriptive_statistics', '~> 2.4.0', require: 'descriptive_statistics/safe'
 
 group :development do
   gem 'thin'

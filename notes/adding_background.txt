@@ -1,0 +1,27 @@
+NOTES
+
+- make background jobs small and simple (i.e. don't pass objects, only simple params)
+
+
+TO INSTALL
+
+- gem
+- redis
+
+
+
+
+TO USE
+
+- redis must be running
+
+
+
+TO CALL
+
+  - either create a worker class
+  - or call needed process with MyClass.delay.some_method(1, 'bob', true)
+
+
+basic use:
+https://github.com/mperham/sidekiq/wiki/Getting-Started

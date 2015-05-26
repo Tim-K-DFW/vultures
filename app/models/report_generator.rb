@@ -169,16 +169,16 @@ class ReportGenerator
   def st_deviation_by_period(start_date, end_date, by_period_results)
     result = {}
     result[:description] = 'Standard deviation of returns, by period'
-    result[:portfolio] = by_period_results.map{|v| v[:by_period]}.map{|v| v[:return]}.standard_deviation.round(4)
-    result[:sp500] = by_period_results.map{|v| v[:by_period]}.map{|v| v[:sp500_return]}.standard_deviation.round(4)
+    result[:portfolio] = by_period_results.map{|v| v[:by_period]}.map{|v| v[:return]}.extend(DescriptiveStatistics).standard_deviation.round(4)
+    result[:sp500] = by_period_results.map{|v| v[:by_period]}.map{|v| v[:sp500_return]}.extend(DescriptiveStatistics).standard_deviation.round(4)
     result
   end
 
    def st_deviation_annualized(start_date, end_date, by_period_results)
     result = {}
     result[:description] = 'Standard deviation of returns, annualized'
-    result[:portfolio] = by_period_results.map{|v| v[:annualized]}.map{|v| v[:return]}.standard_deviation.round(4)
-    result[:sp500] = by_period_results.map{|v| v[:annualized]}.map{|v| v[:sp500_return]}.standard_deviation.round(4)
+    result[:portfolio] = by_period_results.map{|v| v[:annualized]}.map{|v| v[:return]}.extend(DescriptiveStatistics).standard_deviation.round(4)
+    result[:sp500] = by_period_results.map{|v| v[:annualized]}.map{|v| v[:sp500_return]}.extend(DescriptiveStatistics).standard_deviation.round(4)
     result
   end
 

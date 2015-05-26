@@ -3,6 +3,12 @@ module ApplicationHelper
     number_to_percentage((arg.to_f * 100).round(4), precision: 2, delimiter: ',')
   end
 
+  def fill_all_trial_data
+    fill_trial_data
+    fill_sp500_trial_data
+    fill_trial_companies_data
+  end
+
   def fill_trial_data
     PricePoint.create(period: '1952-12-31', cid: 'gs', market_cap: 874, earnings_yield: 0.4, roc: 0.5, price: 84, delisted: false)
     PricePoint.create(period: '1952-12-31', cid: 'emes', market_cap: 1397, earnings_yield: 0.05, roc: 0.7, price: 15, delisted: false)

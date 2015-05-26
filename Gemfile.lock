@@ -63,7 +63,7 @@ GEM
     daemons (1.1.9)
     database_cleaner (1.2.0)
     debug_inspector (0.0.2)
-    descriptive_statistics (2.5.1)
+    descriptive_statistics (2.4.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     eventmachine (1.0.7)
@@ -209,7 +209,7 @@ DEPENDENCIES
   capybara
   coffee-rails
   database_cleaner (= 1.2.0)
-  descriptive_statistics
+  descriptive_statistics (~> 2.4.0)
   fabrication
   faker
   figaro

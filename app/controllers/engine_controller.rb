@@ -49,7 +49,7 @@ class EngineController < ApplicationController
     result[:rebalance_frequency] = 'annual'
     result[:market_cap_floor] = nil if params[:engine][:market_cap_floor] == ''
     result[:market_cap_ceiling] = nil if params[:engine][:market_cap_ceiling] == ''
-    result[:start_date] = '1952-12-31'
+    result[:start_date] = '1993-12-31'
     result[:initial_balance] = params[:engine][:initial_balance].to_f
     result[:position_count] = params[:engine][:position_count].to_i
     result
