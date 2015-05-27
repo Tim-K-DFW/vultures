@@ -14,6 +14,8 @@ TO INSTALL
 TO USE
 
 - redis must be running
+- sidekiq must be running
+
 
 
 
@@ -25,3 +27,4 @@ TO CALL
 
 basic use:
 https://github.com/mperham/sidekiq/wiki/Getting-Started
+http://railscasts.com/episodes/366-sidekiq?view=asciicast
