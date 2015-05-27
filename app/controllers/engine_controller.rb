@@ -8,6 +8,7 @@ class EngineController < ApplicationController
   def generate
     engine = Engine.new(get_params)
     if engine.valid?
+      
       @results = ReportGenerator.new(engine.run).generate
       render file: "engine/results_link.js.erb"
     else
