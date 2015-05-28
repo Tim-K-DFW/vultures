@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   post '/results_performance', to: 'engine#results_performance'
   post '/results_positions', to: 'engine#results_positions'
   mount Sidekiq::Web, at: '/sidekiq'
+  post '/results_link', to: 'engine#results_link'
 end

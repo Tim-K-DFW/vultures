@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 'rvm rvmrc warning ignore /home/action/workspace/mf_app/Gemfile'
 
+gem 'sidekiq'
+gem 'sidekiq-status'
+gem 'sinatra', require: false
+gem 'slim'
 gem 'bootstrap-sass'
 gem 'bootstrap_form'
 gem 'coffee-rails'
@@ -17,7 +21,8 @@ gem 'faker'
 gem 'figaro'
 gem 'turbolinks'
 gem 'descriptive_statistics', '~> 2.4.0', require: 'descriptive_statistics/safe'
-gem 'sidekiq'
+gem 'pusher'
+
 
 group :development do
   gem 'thin'

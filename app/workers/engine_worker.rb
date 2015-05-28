@@ -1,9 +1,10 @@
 class EngineWorker
-  include Sidekiq::Worker
-  sidekiq_options retry: false
-  
   include ActiveModel::Model
   require 'date'
+
+  include Sidekiq::Worker
+  include Sidekiq::Status::Worker
+  sidekiq_options retry: false
 
   attr_reader :parameters, :portfolio
   attr_accessor :rebalance_frequency, :market_cap_floor, :market_cap_ceiling, :initial_balance, :use_dual_momentum
@@ -12,7 +13,8 @@ class EngineWorker
     @parameters = parameters
   end
 
-  def perform(args=nil)
+  def perform(parameters=nil, pusher_channel)
+    @parameters = parameters
     @portfolio = Portfolio.new(
       position_count: parameters["position_count"],
       initial_balance: parameters["initial_balance"],
@@ -22,7 +24,11 @@ class EngineWorker
 
     PricePoint.all_periods(development: true).each do |period|
       period = period.to_s
-      store current_period: period
+
+      binding.pry
+      
+      Pusher.trigger(pusher_channel, 'update', {message: "Processing #{period}" })
+      # store current_status: "Processing #{period}"
       
       current_market_data = ScoreCalculator.new(
         market_cap_floor: parameters["market_cap_floor"], 
@@ -40,6 +46,14 @@ class EngineWorker
         ).build
       @portfolio.rebalance(new_period: period, target: target_portfolio, parameters: parameters)
     end
-    self
+
+    # store current_status: 'Building output'
+    binding.pry
+    Pusher.trigger(pusher_channel, 'update', {message: 'Building reports' })
+    output = ReportGenerator.new(self).generate
+    # store results: output.to_json
+    # output.to_json
+    binding.pry
+    Pusher.trigger(pusher_channel, 'update', { progress: 100, message: output })
   end
 end

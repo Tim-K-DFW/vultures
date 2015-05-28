@@ -1,3 +1,6 @@
+= content_for :head do
+  %script(type="text/javascript" src="http://js.pusher.com/2.1/pusher.min.js")
+
 .container
   #content
     .row
@@ -17,4 +20,7 @@
         #progress-indicator
           %p progress indicator will be here...
         .voffset4
-        #results_link_area
+        .progress.progress-striped.active.hide
+          .progress-bar.progress-bar-info#realtime-progress-bar{role: "progressbar", style: "width: 0%;"}
+        #progress-status
+          %p.messages

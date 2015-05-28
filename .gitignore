@@ -17,3 +17,6 @@
 
 # Ignore all source data files.
 /db/*.csv
+
+# Ignore application configuration
+/config/application.yml

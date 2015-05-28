@@ -1,0 +1,42 @@
+
+  # def generate
+  #   if EngineWorker.new(get_params).valid?
+  #     job_id = EngineWorker.perform_async(get_params)
+
+  #     # begin
+  #     #   status = Sidekiq::Status::get_all job_id
+  #     #   current_period = status["current_period"]
+  #     #   @progress = "Processing period of #{current_period}"
+  #     #   # render file: 'engine/status_update.js.erb' and return
+  #     #   render file: js => '$("#progress-indicator").html("<%= @progress %>");'
+  #     # end until status["status"] == 'complete'
+
+  #     # @results = ReportGenerator.new(portfolio).generate
+      
+  #     begin
+  #       status = Sidekiq::Status::get_all job_id
+  #       puts status['current_status']
+  #       sleep 2
+  #     end until status['status'] == 'complete'
+  #     puts 'Job complete!'
+  #     @results = status['results']
+
+  #     render file: 'engine/results_link.js.erb'
+  #   else
+  #     render 'params_entry'
+  #   end
+  # end
+
+
+ # def progress_query
+  #   job_id = params[:job_id]
+  #   @status = Sidekiq::Status::get_all job_id
+  #   binding.pry
+  #   respond_to do |format|
+  #     format.json { 
+  #       render :json => {
+  #         :status => @status,
+  #       }
+  #     }
+  #   end
+  # end
