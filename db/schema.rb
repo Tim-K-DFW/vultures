@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150514130443) do
+ActiveRecord::Schema.define(version: 20150529021442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,12 @@ ActiveRecord::Schema.define(version: 20150514130443) do
     t.float   "roc"
     t.float   "price"
     t.boolean "delisted"
+  end
+
+  create_table "results", force: true do |t|
+    t.text     "result_string"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

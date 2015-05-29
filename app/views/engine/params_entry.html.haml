@@ -17,10 +17,8 @@
           .voffset4
           = f.submit 'Generate', class: "btn btn-primary btn-lg"
         .voffset4
-        #progress-indicator
-          %p progress indicator will be here...
-        .voffset4
         .progress.progress-striped.active.hide
           .progress-bar.progress-bar-info#realtime-progress-bar{role: "progressbar", style: "width: 0%;"}
         #progress-status
           %p.messages
+        = link_to 'View Results', results_performance_path, data: {method: :post, remote: true}, class: 'btn btn-success btn-lg', id: 'results-link'

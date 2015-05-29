@@ -25,10 +25,7 @@ class EngineWorker
     PricePoint.all_periods(development: true).each do |period|
       period = period.to_s
 
-      binding.pry
-      
       Pusher.trigger(pusher_channel, 'update', {message: "Processing #{period}" })
-      # store current_status: "Processing #{period}"
       
       current_market_data = ScoreCalculator.new(
         market_cap_floor: parameters["market_cap_floor"], 
@@ -47,13 +44,9 @@ class EngineWorker
       @portfolio.rebalance(new_period: period, target: target_portfolio, parameters: parameters)
     end
 
-    # store current_status: 'Building output'
-    binding.pry
     Pusher.trigger(pusher_channel, 'update', {message: 'Building reports' })
-    output = ReportGenerator.new(self).generate
-    # store results: output.to_json
-    # output.to_json
-    binding.pry
-    Pusher.trigger(pusher_channel, 'update', { progress: 100, message: output })
+    output = ReportGenerator.new(self).to_json
+    Result.create(result_string: output)
+    Pusher.trigger(pusher_channel, 'update', {progress: 100, message: 'Done!' })
   end
 end

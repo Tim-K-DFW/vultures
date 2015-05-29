@@ -1,5 +1,6 @@
 class EngineController < ApplicationController
   respond_to :html, :js
+  require 'net/http'
 
   def params_entry
     @engine = EngineWorker.new
@@ -8,23 +9,9 @@ class EngineController < ApplicationController
   def generate
     engine = EngineWorker.new(get_params)
     if engine.valid?
-      pusher_channel = (1..100).to_a.sample
+      pusher_channel = 100
       engine.perform(get_params, pusher_channel)
-
-
-      # begin
-      #   status = Sidekiq::Status::get_all job_id
-
-      #   # maybe the loop will execut on the client-side
-      #   @message = status['current_period']
-
-      #   # send @message via pusher here
-
-      # end until status['status'] == 'complete'
-
-      # probably this part will called from client
-      # @results = JSON.parse(status['results'])
-      # render file: 'engine/results_link.js.erb'
+      redirect_to results_link_path
     else
       render 'params_entry'
     end
@@ -32,12 +19,13 @@ class EngineController < ApplicationController
 
   def results_link
     binding.pry
-    @results = JSON.parse(params[:results])
-    render file: 'engine/results_link.js.erb'
+    @results = JSON.parse(Result.last.result_string)['engine']
+    render file: "engine/results_link.js.erb"
   end
 
   def results_performance
-    @source = params[:results]
+    binding.pry
+    @source = JSON.parse(Result.last.result_string)['engine']
     respond_to do |format|
       format.html { render 'results_performance' }
       format.js { render 'results_performance' }
@@ -45,7 +33,7 @@ class EngineController < ApplicationController
   end
 
   def results_positions
-   @source = params[:results]
+   @source = JSON.parse(Result.last.result_string)['engine']
     respond_to do |format|
       format.html { render 'results_positions' }
       format.js { render 'results_positions' }
