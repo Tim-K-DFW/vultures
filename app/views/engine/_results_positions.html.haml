@@ -5,49 +5,49 @@
     %li.active
       = link_to 'View positions', results_positions_path, data: {method: :post, remote: true}
   %h3 Holdings during each period
-  - @source[:positions].each do |period|
+  - @source['positions'].each do |period|
     .voffset5
-    %p.bold= period[1][:end_date] == '' ? "Current portfolio" : "Period ending #{period[1][:end_date]}"
+    %p.bold= period['end_date'] == '' ? "Current portfolio" : "Period ending #{period['end_date']}"
     %table.table.table-condensed.smaller-font.table-hover
       %tr.table-header.blue-background
         %th{ rowspan: 2 } Capital IQ ID
         %th{ rowspan: 2 } Company
         %th{ rowspan: 2 } Shares
-        %th{ colspan: 2 }= "as of #{period[1][:start_date]}"
-        %th{ colspan: 2 }= period[1][:end_date] == '' ? '' : "as of #{period[1][:end_date]}"
-        %th{ rowspan: 2 }= period[1][:end_date] == '' ? '' : 'Profit'
+        %th{ colspan: 2 }= "as of #{period['start_date']}"
+        %th{ colspan: 2 }= period['end_date'] == '' ? '' : "as of #{period['end_date']}"
+        %th{ rowspan: 2 }= period['end_date'] == '' ? '' : 'Profit'
         %th{ rowspan: 2 } Notes
       %tr.table-header.blue-background
         %th Price per share
         %th Market value
-        %th= period[1][:end_date] == '' ? '' : 'Price per share'
-        %th= period[1][:end_date] == '' ? '' : 'Market value'
-      - period[1][:positions].each do |position|
+        %th= period['end_date'] == '' ? '' : 'Price per share'
+        %th= period['end_date'] == '' ? '' : 'Market value'
+      - period['positions'].each do |position|
         %tr.right-aligned
-          %td.left-aligned= position[1][:cid]
-          %td.left-aligned= position[1][:company_name]
-          %td= number_with_delimiter(position[1][:share_count])
-          %td= number_to_currency(position[1][:beginning_price])
-          %td= number_to_currency(position[1][:beginning_value])
-          %td= period[1][:end_date] == '' ? '' : number_to_currency(position[1][:ending_price])
-          %td= period[1][:end_date] == '' ? '' : number_to_currency(position[1][:ending_value])
-          %td= period[1][:end_date] == '' ? '' : number_to_currency(position[1][:profit], negative_format: "(%u%n)")
-          %td= position[1][:notes]
+          %td.left-aligned= position['cid']
+          %td.left-aligned= position['company_name']
+          %td= number_with_delimiter(position['share_count'])
+          %td= number_to_currency(position['beginning_price'])
+          %td= number_to_currency(position['beginning_value'])
+          %td= period['end_date'] == '' ? '' : number_to_currency(position['ending_price'])
+          %td= period['end_date'] == '' ? '' : number_to_currency(position['ending_value'])
+          %td= period['end_date'] == '' ? '' : number_to_currency(position['profit'], negative_format: "(%u%n)")
+          %td= position['notes']
       %tr.right-aligned.italic
         %td.left-aligned Cash
         -3.times do
           %td
-        %td= number_to_currency(period[1][:cash])
+        %td= number_to_currency(period['cash'])
         %td
-        %td= period[1][:end_date] == '' ? '' : number_to_currency(period[1][:cash])
+        %td= period['end_date'] == '' ? '' : number_to_currency(period['cash'])
         %td
         %td
       %tr.right-aligned.bold.blue-background
         %td.left-aligned Total
         - 3.times do
           %td
-        %td= number_to_currency(period[1][:total_value_beginning])
+        %td= number_to_currency(period['total_value_beginning'])
         %td
-        %td= period[1][:end_date] == '' ? '' : number_to_currency(period[1][:total_value_ending])
-        %td= period[1][:end_date] == '' ? '' : number_to_currency(period[1][:total_profit], negative_format: "(%u%n)")
+        %td= period['end_date'] == '' ? '' : number_to_currency(period['total_value_ending'])
+        %td= period['end_date'] == '' ? '' : number_to_currency(period['total_profit'], negative_format: "(%u%n)")
         %td

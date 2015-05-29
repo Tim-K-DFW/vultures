@@ -15,10 +15,10 @@
           %td.right-aligned annual
         %tr
           %td Market cap floor, $mm
-          %td.right-aligned= number_with_delimiter(@source[:parameters][:market_cap_floor])
+          %td.right-aligned= number_with_delimiter(@source['parameters']['market_cap_floor'])
         %tr
           %td Market cap ceiling, $mm
-          %td.right-aligned= number_with_delimiter(@source[:parameters][:market_cap_ceiling])
+          %td.right-aligned= number_with_delimiter(@source['parameters']['market_cap_ceiling'])
   .voffset5
   %h4 By period
   %table.table.table-condensed
@@ -37,24 +37,24 @@
       %td.left-aligned
         %i Initial balance
       %td
-        %i= number_to_currency(@source[:parameters][:initial_balance])
+        %i= number_to_currency(@source['parameters']['initial_balance'])
       - 8.times do
         %td
-    - @source[:performance].each do |k, period|
+    - @source['performance'].each do |period|
       %tr.right-aligned
-        %td.left-aligned= period[:date]
-        %td= number_to_currency(period[:balance])
-        %td= pretty_percentage(period[:by_period][:return])
-        %td= pretty_percentage(period[:by_period][:sp500_return])
-        %td= pretty_percentage(period[:annualized][:return])
-        %td= pretty_percentage(period[:annualized][:sp500_return])
-        %td= pretty_percentage(period[:cumulative_cy][:return])
-        %td= pretty_percentage(period[:cumulative_cy][:sp500_return])
-        %td= pretty_percentage(period[:rolling_12_months][:return])
-        %td= pretty_percentage(period[:rolling_12_months][:sp500_return])
+        %td.left-aligned= period['date']
+        %td= number_to_currency(period['balance'])
+        %td= pretty_percentage(period['by_period']['return'])
+        %td= pretty_percentage(period['by_period']['sp500_return'])
+        %td= pretty_percentage(period['annualized']['return'])
+        %td= pretty_percentage(period['annualized']['sp500_return'])
+        %td= pretty_percentage(period['cumulative_cy']['return'])
+        %td= pretty_percentage(period['cumulative_cy']['sp500_return'])
+        %td= pretty_percentage(period['rolling_12_months']['return'])
+        %td= pretty_percentage(period['rolling_12_months']['sp500_return'])
   .voffset5
   %h4 Aggregated
-  %p= "For the period between #{@source[:aggregated][:start_date]} and #{@source[:aggregated][:end_date]}"
+  %p= "For the period between #{@source['aggregated']['start_date']} and #{@source['aggregated']['end_date']}"
   .voffset5
   .row
     .col-sm-7
@@ -63,8 +63,8 @@
           %th
           %th tested strategy
           %th S&P 500
-        - @source[:aggregated][:table].each do |line, items|
+        - @source['aggregated']['table'].each do |line, items|
           %tr.right-aligned
-            %td.left-aligned= items[:description]
-            %td= line == 'e_sharpe' ? items[:portfolio] : pretty_percentage(items[:portfolio])
-            %td= line == 'e_sharpe' ? items[:sp500] : pretty_percentage(items[:sp500])
+            %td.left-aligned= items['description']
+            %td= line == 'e_sharpe' ? items['portfolio'] : pretty_percentage(items['portfolio'])
+            %td= line == 'e_sharpe' ? items['sp500'] : pretty_percentage(items['sp500'])

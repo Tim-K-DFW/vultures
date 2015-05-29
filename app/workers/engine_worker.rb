@@ -45,7 +45,8 @@ class EngineWorker
     end
 
     Pusher.trigger(pusher_channel, 'update', {message: 'Building reports' })
-    output = ReportGenerator.new(self).to_json
+    output = ReportGenerator.new(self).generate.to_json
+    Result.all.destroy_all
     Result.create(result_string: output)
     Pusher.trigger(pusher_channel, 'update', {progress: 100, message: 'Done!' })
   end

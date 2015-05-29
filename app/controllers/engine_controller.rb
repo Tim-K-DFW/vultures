@@ -11,21 +11,14 @@ class EngineController < ApplicationController
     if engine.valid?
       pusher_channel = 100
       engine.perform(get_params, pusher_channel)
-      redirect_to results_link_path
+      render file: "engine/results_link.js.erb"
     else
       render 'params_entry'
     end
   end
 
-  def results_link
-    binding.pry
-    @results = JSON.parse(Result.last.result_string)['engine']
-    render file: "engine/results_link.js.erb"
-  end
-
   def results_performance
-    binding.pry
-    @source = JSON.parse(Result.last.result_string)['engine']
+    @source = JSON.parse(Result.last.result_string)
     respond_to do |format|
       format.html { render 'results_performance' }
       format.js { render 'results_performance' }
@@ -33,7 +26,7 @@ class EngineController < ApplicationController
   end
 
   def results_positions
-   @source = JSON.parse(Result.last.result_string)['engine']
+   @source = JSON.parse(Result.last.result_string)
     respond_to do |format|
       format.html { render 'results_positions' }
       format.js { render 'results_positions' }

@@ -1,1 +1,1 @@
-$('#results_link_area').html("<%= j link_to 'View Results', results_performance_path, data: {method: :post, remote: true, params: {results: @results}}, class: "btn btn-success btn-lg" %>");
+document.getElementById("results-link-area").innerHTML = "<%= j link_to 'View Results', results_performance_path, data: {method: :post, remote: true, params: {results: @results}}, class: "btn btn-success btn-lg" %>";
