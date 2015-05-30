@@ -4,9 +4,5 @@ $(document).ready(function() {
   channel.bind('update', function(data) {
     var messageBox = $('#progress-status').children('.messages');
     messageBox.html(data.message);
-
-    // var progressBar = $('#realtime-progress-bar');
-    // progressBar.width(data.progress+"%")
-
   });
 });

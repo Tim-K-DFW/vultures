@@ -1,6 +1,6 @@
 class ReportGenerator
   attr_reader :engine, :portfolio
-  attr_accessor :resuts
+  attr_accessor :resuts, :pusher_channel
 
   def initialize(engine)
     @engine = engine
@@ -8,7 +8,8 @@ class ReportGenerator
     @results = {}
   end
 
-  def generate
+  def generate(pusher_channel)
+    @pusher_channel = pusher_channel
     @results['parameters'] = @engine.parameters
     @results['performance'] = generate_performance
     @results['aggregated'] = aggregated_performance(@results['performance'])
@@ -19,6 +20,7 @@ class ReportGenerator
   def generate_performance
     result = []
     portfolio.periods.each do |end_date, state|
+      Pusher.trigger(pusher_channel, 'update', { message: "Building reports - Performance for the period of #{end_date}" })
       next if end_date == portfolio.periods.first[0]
       this_period = {}
       this_period['date'] = end_date
@@ -34,6 +36,7 @@ class ReportGenerator
   end
 
   def aggregated_performance(by_period_results)
+    Pusher.trigger(pusher_channel, 'update', { message: 'Building reports - Aggregated performance' })
     result = {}
     start_date = result['start_date'] = portfolio.periods.first[0]
     end_date = result['end_date'] = portfolio.periods.keys.last
@@ -50,6 +53,7 @@ class ReportGenerator
   def generate_positions
     result = []
     portfolio.periods.each do |date, data|
+      Pusher.trigger(pusher_channel, 'update', { message: "Building reports - Positions as of #{date}" })
       this_period = {}
       this_period['start_date'] = date
       end_date = this_period['end_date'] = portfolio.periods.keys[portfolio.periods.keys.index(date) + 1] || ''

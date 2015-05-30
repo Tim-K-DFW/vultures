@@ -1,6 +1,6 @@
 class Portfolio
   attr_reader :position_count
-  attr_accessor :periods
+  attr_accessor :periods, :pusher_channel
 
   def initialize(args)
     @sell_method = args[:sell_method]
@@ -10,6 +10,7 @@ class Portfolio
     @periods[args[:start_date]] = {}
     @periods[args[:start_date]][:positions] = {}
     @periods[args[:start_date]][:cash] = @initial_balance
+    @pusher_channel = args[:pusher_channel]
   end
 
   def position(cid, as_of_date)
@@ -47,6 +48,7 @@ class Portfolio
 
   def sell_non_target_stocks(args)
     today = args[:new_period]
+    Pusher.trigger(pusher_channel, 'update', { message: "Processing #{today} - selling off old stocks" })
     target = args[:target]
     full_sell_list = periods[today][:positions].keys - target.keys
     full_sell_list.each do |stock|
@@ -67,6 +69,7 @@ class Portfolio
 
   def add_target_stocks_not_already_held(args)
     target = args[:target]
+    Pusher.trigger(pusher_channel, 'update', { message: "Processing #{args[:new_period]} - buying new stocks" })
     stocks_to_add = target.select { |cid, position| periods[args[:new_period]][:positions].keys.exclude? cid }
     stocks_to_add.each{ |cid, position| buy(date: args[:new_period], stock: cid, amount: position[:share_count]) }
   end

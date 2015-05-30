@@ -1,16 +1,15 @@
 class EngineController < ApplicationController
   respond_to :html, :js
-  require 'net/http'
 
   def params_entry
-    @engine = EngineWorker.new
+    @engine = Engine.new
   end
 
   def generate
-    engine = EngineWorker.new(get_params)
+    engine = Engine.new(get_params)
     if engine.valid?
       pusher_channel = 100
-      engine.perform(get_params, pusher_channel)
+      engine.run(get_params, pusher_channel)
       render file: "engine/results_link.js.erb"
     else
       render 'params_entry'
@@ -47,13 +46,13 @@ class EngineController < ApplicationController
   end
 
   def get_params
-    result = params.require(:engine_worker).permit(:market_cap_floor, :market_cap_ceiling, :position_count, :initial_balance, :start_date)
+    result = params.require(:engine).permit(:market_cap_floor, :market_cap_ceiling, :position_count, :initial_balance, :start_date)
     result[:rebalance_frequency] = 'annual'
-    result[:market_cap_floor] = nil if params[:engine_worker][:market_cap_floor] == ''
-    result[:market_cap_ceiling] = nil if params[:engine_worker][:market_cap_ceiling] == ''
+    result[:market_cap_floor] = nil if params[:engine][:market_cap_floor] == ''
+    result[:market_cap_ceiling] = nil if params[:engine][:market_cap_ceiling] == ''
     result[:start_date] = '1993-12-31'
-    result[:initial_balance] = params[:engine_worker][:initial_balance].to_f
-    result[:position_count] = params[:engine_worker][:position_count].to_i
+    result[:initial_balance] = params[:engine][:initial_balance].to_f
+    result[:position_count] = params[:engine][:position_count].to_i
     result
   end
 end
