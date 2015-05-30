@@ -1,5 +1,5 @@
 class ReportGenerator
-  attr_reader :engine, :portfolio, :parameters
+  attr_reader :portfolio, :parameters
   attr_accessor :resuts, :pusher_channel
 
   def initialize(portfolio, parameters)
@@ -10,7 +10,7 @@ class ReportGenerator
 
   def generate(pusher_channel)
     @pusher_channel = pusher_channel
-    @results['parameters'] = @engine.parameters
+    @results['parameters'] = parameters
     @results['performance'] = generate_performance
     @results['aggregated'] = aggregated_performance(@results['performance'])
     @results['positions'] = generate_positions
@@ -46,7 +46,7 @@ class ReportGenerator
     result['table']['c_st_deviation_by_period'] = st_deviation_by_period(start_date, end_date, by_period_results)
     result['table']['d_st_deviation_annualized'] = st_deviation_annualized(start_date, end_date, by_period_results)
     result['table']['e_sharpe'] = sharpe(result['table'])
-    result['table']['f_max_drawdown'] = max_drawdown_hash(engine.parameters["initial_balance"], by_period_results)
+    result['table']['f_max_drawdown'] = max_drawdown_hash(parameters["initial_balance"], by_period_results)
     result
   end
 
@@ -101,7 +101,7 @@ class ReportGenerator
 
   def annualized_return(by_period_results)
     result = {}
-    compounding = case engine.parameters["rebalance_frequency"]
+    compounding = case parameters["rebalance_frequency"]
     when 'annual'
       1
     when 'semi-annual'
@@ -123,21 +123,21 @@ class ReportGenerator
   end
 
   def single_period_start(ending_date)
-    case engine.parameters["rebalance_frequency"]
+    case parameters["rebalance_frequency"]
     when 'annual'
       (Date.strptime(ending_date, '%Y-%m-%d') - 1.year).to_s
     end
   end
 
   def cumulative_cy_start(ending_date)
-    case engine.parameters["rebalance_frequency"]
+    case parameters["rebalance_frequency"]
     when 'annual'
       (Date.strptime(ending_date, '%Y-%m-%d') - 1.year).to_s
     end
   end
 
   def rolling_12_months_start(ending_date)
-    case engine.parameters["rebalance_frequency"]
+    case parameters["rebalance_frequency"]
     when 'annual'
       (Date.strptime(ending_date, '%Y-%m-%d') - 1.year).to_s
     end
@@ -199,7 +199,7 @@ class ReportGenerator
     result['description'] = 'Maximum drawdown'
     result['portfolio'] = max_drawdown(([initial_balance] << by_period_results.map{|k| k['balance']}).flatten)
 
-    sp500_starting_value = PricePoint.where(cid: 'sp500', period: engine.parameters["start_date"]).first.price
+    sp500_starting_value = PricePoint.where(cid: 'sp500', period: parameters["start_date"]).first.price
     result['sp500'] = max_drawdown(([sp500_starting_value] << by_period_results.map{|k| k['sp500_value']}).flatten)
 
     result
