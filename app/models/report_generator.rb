@@ -1,10 +1,10 @@
 class ReportGenerator
-  attr_reader :engine, :portfolio
+  attr_reader :engine, :portfolio, :parameters
   attr_accessor :resuts, :pusher_channel
 
-  def initialize(engine)
-    @engine = engine
-    @portfolio = engine.portfolio
+  def initialize(portfolio, parameters)
+    @portfolio = portfolio
+    @parameters = parameters
     @results = {}
   end
 
