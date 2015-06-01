@@ -10,7 +10,6 @@ class Engine
   end
 
   def perform(parameters=nil, pusher_channel)
-    binding.pry
     @parameters = parameters
     @portfolio = Portfolio.new(
       position_count: parameters["position_count"],

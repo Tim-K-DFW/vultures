@@ -6,7 +6,6 @@ class PricePoint < ActiveRecord::Base
     range = args[:development] == true ? (1993..2001).to_a : (1993..2014).to_a
     result = []
     range.each { |year| result << "#{year}-12-31" }
-    binding.pry
     result
   end
 end
