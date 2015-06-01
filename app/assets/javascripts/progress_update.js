@@ -4,8 +4,8 @@ $(document).ready(function() {
   channel.bind('update', function(data) {
     var messageBox = $('#progress-status').children('.messages');
     messageBox.html(data.message);
-    if (data.progress == 100) {
-      document.getElementById("results-link").style.visibility = "visible";
-    }
+    // if (data.progress == 100) {
+    //   document.getElementById("results-link").style.visibility = "visible";
+    // }
   });
 });

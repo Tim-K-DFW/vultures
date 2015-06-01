@@ -12,6 +12,7 @@
       %tr.table-header.blue-background
         %th{ rowspan: 2 } Capital IQ ID
         %th{ rowspan: 2 } Company
+        %th{ rowspan: 2 } Market cap
         %th{ rowspan: 2 } Shares
         %th{ colspan: 2 }= "as of #{period['start_date']}"
         %th{ colspan: 2 }= period['end_date'] == '' ? '' : "as of #{period['end_date']}"
@@ -26,6 +27,7 @@
         %tr.right-aligned
           %td.left-aligned= position['cid']
           %td.left-aligned= position['company_name']
+          %td= number_with_delimiter(position['market_cap'])
           %td= number_with_delimiter(position['share_count'])
           %td= number_to_currency(position['beginning_price'])
           %td= number_to_currency(position['beginning_value'])
@@ -35,7 +37,7 @@
           %td= position['notes']
       %tr.right-aligned.italic
         %td.left-aligned Cash
-        -3.times do
+        -4.times do
           %td
         %td= number_to_currency(period['cash'])
         %td
@@ -44,7 +46,7 @@
         %td
       %tr.right-aligned.bold.blue-background
         %td.left-aligned Total
-        - 3.times do
+        - 4.times do
           %td
         %td= number_to_currency(period['total_value_beginning'])
         %td
