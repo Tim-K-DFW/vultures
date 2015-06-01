@@ -14,6 +14,7 @@
           = f.text_field :market_cap_ceiling, label: 'Market cap ceiling, $mm'
           = f.text_field :initial_balance, value: 1000000
           = f.check_box :background, label: 'Execute in background (significant slowdown)'
+          = f.check_box :test_run, label: 'Test run (only 1993 through 2001)'
           .voffset4
           = f.submit 'Generate', class: "btn btn-primary btn-lg"
         .voffset4

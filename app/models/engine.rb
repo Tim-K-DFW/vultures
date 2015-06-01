@@ -3,13 +3,14 @@ class Engine
   require 'date'
 
   attr_reader :parameters, :portfolio
-  attr_accessor :rebalance_frequency, :market_cap_floor, :market_cap_ceiling, :initial_balance, :use_dual_momentum, :background
+  attr_accessor :rebalance_frequency, :market_cap_floor, :market_cap_ceiling, :initial_balance, :use_dual_momentum, :background, :test_run
 
   def initialize(parameters=nil)
     @parameters = parameters
   end
 
   def perform(parameters=nil, pusher_channel)
+    binding.pry
     @parameters = parameters
     @portfolio = Portfolio.new(
       position_count: parameters["position_count"],
@@ -19,7 +20,7 @@ class Engine
       pusher_channel: pusher_channel
     )
 
-    PricePoint.all_periods(development: true).each do |period|
+    PricePoint.all_periods(development: parameters['test_run'] == '1' ? true : false).each do |period|
       period = period.to_s
       Pusher.trigger(pusher_channel, 'update', { message: "Processing #{period} - ranking stocks" })
       current_market_data = ScoreCalculator.new(

@@ -46,7 +46,7 @@ class EngineController < ApplicationController
   end
 
   def get_params
-    result = params.require(:engine).permit(:market_cap_floor, :market_cap_ceiling, :position_count, :initial_balance, :background, :rebalance_frequency)
+    result = params.require(:engine).permit(:market_cap_floor, :market_cap_ceiling, :position_count, :initial_balance, :background, :rebalance_frequency, :test_run)
     result[:rebalance_frequency] = 'annual'
     result[:market_cap_floor] = nil if params[:engine][:market_cap_floor] == ''
     result[:market_cap_ceiling] = nil if params[:engine][:market_cap_ceiling] == ''
