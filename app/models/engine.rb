@@ -3,7 +3,7 @@ class Engine
   require 'date'
 
   attr_reader :parameters, :portfolio
-  attr_accessor :rebalance_frequency, :market_cap_floor, :market_cap_ceiling, :initial_balance, :use_dual_momentum, :background, :test_run
+  attr_accessor :rebalance_frequency, :market_cap_floor, :market_cap_ceiling, :initial_balance, :use_dual_momentum, :background, :test_run, :start_date, :single_period
 
   def initialize(parameters=nil)
     @parameters = parameters
@@ -18,8 +18,7 @@ class Engine
       rebalance_frequency: parameters["rebalance_frequency"],
       pusher_channel: pusher_channel
     )
-
-    PricePoint.all_periods(development: parameters['test_run'] == '1' ? true : false).each do |period|
+    PricePoint.all_periods(development: parameters['test_run'] == '1' ? true : false, single_period: parameters['single_period'], start_date: parameters['start_date']).each do |period|
       period = period.to_s
       Pusher.trigger(pusher_channel, 'update', { message: "Processing #{period} - ranking stocks" })
       current_market_data = ScoreCalculator.new(

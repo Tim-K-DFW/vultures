@@ -1,11 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-
 require 'csv'
 require 'date'
 
@@ -24,14 +16,19 @@ CSV.foreach("db/data - annual since 1993.csv", headers: true, encoding: 'ISO-885
     ev = row[i * 6 + 6].to_f.round(3)
     net_ppe = row[i * 6 + 7].to_f.round(3)
     nwc = row[i * 6 + 8].to_f.round(3)
-
+    market_cap = row[i * 6 + 4].to_f.round(3)
+    price = row[i * 6 + 9].to_f.round(2)
     new_entry = PricePoint.create(
       cid: row[2],
       period: Date.strptime(periods[i], '%m/%d/%Y'),
-      market_cap: row[i * 6 + 4].to_f.round(3),
+      market_cap: market_cap,
+      net_ppe: net_ppe,
+      nwc: nwc,
+      ltm_ebit: ebit,
+      ev: ev,
       earnings_yield: ebit > 0 ? (ebit / ev).round(3) : 0,
       roc: ebit > 0 ? (ebit / (net_ppe + nwc)).round(3) : 0,
-      price: row[i * 6 + 9].to_f.round(2),
+      price: price,
       delisted: false
     )
     delisted_check = /(\d+\/\d+\/\d+)/.match(row[i * 6 + 9])

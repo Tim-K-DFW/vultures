@@ -2,7 +2,7 @@ class ScoreCalculator
   attr_accessor :stocks
 
   def initialize(args)
-    array = PricePoint.where("period = ? AND market_cap >= ? AND market_cap <= ? AND price > 0 AND delisted = FALSE", args[:period], args[:market_cap_floor] || 50, args[:market_cap_ceiling] || 2000000)
+    array = PricePoint.where("period = ? AND market_cap >= ? AND market_cap <= ? AND price > 0 AND delisted = FALSE AND ltm_ebit > 0 AND roc > 0 AND earnings_yield > 0", args[:period], args[:market_cap_floor] || 50, args[:market_cap_ceiling] || 2000000)
     @stocks = []
     array.each { |element| @stocks << element.attributes }
   end

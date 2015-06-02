@@ -64,6 +64,11 @@ class ReportGenerator
         this_position['cid'] = cid.to_s
         this_position['company_name'] = Company.where(cid: cid).first.name || 'Temporary Name Inc.'
         this_position['market_cap'] = PricePoint.where(cid: cid, period: date).first.market_cap.round(1)
+        this_position['ltm_ebit'] = PricePoint.where(cid: cid, period: date).first.ltm_ebit.round(1)
+        this_position['ev'] = PricePoint.where(cid: cid, period: date).first.ev.round(1)
+        this_position['capital'] = (PricePoint.where(cid: cid, period: date).first.nwc + PricePoint.where(cid: cid, period: date).first.net_ppe).round(1)
+        this_position['earnings_yield'] = PricePoint.where(cid: cid, period: date).first.earnings_yield.round(4)
+        this_position['roc'] = PricePoint.where(cid: cid, period: date).first.roc.round(4)
         this_position['share_count'] = position.share_count
         this_position['beginning_price'] = (PricePoint.where(cid: cid, period: date).first.price).round(2)
         this_position['beginning_value'] = (this_position['share_count'] * this_position['beginning_price']).round(2)

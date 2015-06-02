@@ -34,23 +34,12 @@ class EngineController < ApplicationController
 
   private
 
-  def stub_out_params
-    result = {}
-    result[:market_cap_floor] = 200
-    result[:market_cap_ceiling] = 2000
-    result[:position_count] = 5
-    result[:initial_balance] = 1000000
-    result[:start_date] = '1952-12-31'
-    result[:rebalance_frequency] = 'annual'
-    result
-  end
-
   def get_params
-    result = params.require(:engine).permit(:market_cap_floor, :market_cap_ceiling, :position_count, :initial_balance, :background, :rebalance_frequency, :test_run)
+    result = params.require(:engine).permit(:market_cap_floor, :market_cap_ceiling, :position_count, :initial_balance, :background, :rebalance_frequency, :test_run, :start_date, :single_period)
     result[:rebalance_frequency] = 'annual'
     result[:market_cap_floor] = nil if params[:engine][:market_cap_floor] == ''
     result[:market_cap_ceiling] = nil if params[:engine][:market_cap_ceiling] == ''
-    result[:start_date] = '1993-12-31'
+    result[:start_date] = params[:engine][:start_date] || '1993-12-31'
     result[:initial_balance] = params[:engine][:initial_balance].to_f
     result[:position_count] = params[:engine][:position_count].to_i
     result
