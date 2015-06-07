@@ -1,0 +1,751 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=424fd685ad7659e0552ae7a9af164dafdddf3b9d5d581e6cbf058aa96deeae5c&auth_timestamp=1433711170&auth_version=1.0&body_md5=37ff5e16894544b23fc283c685b9b01d
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2012-12-31 - ranking stocks\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:10 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:10 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=d09ba74bcdc01a7a9ff47b823b3b3ea1746de88ff82aa4d0a2490ca7feb7834d&auth_timestamp=1433711170&auth_version=1.0&body_md5=9bc361347d7bec6adafae54bfbee88c8
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2012-12-31 - building portfolio\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:10 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:10 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=489cf3c3051fb5cd55a7ad76d638d1676b6ba0b9b8b3dfaf3ca72567b625befd&auth_timestamp=1433711170&auth_version=1.0&body_md5=ec11c725bf13f464d6efe0affc8f8147
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2012-12-31 - selling off old stocks\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:10 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:10 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=810289a674aba130a4fefdb7830e1d09ed3e4beb064d1aa68756cb476367b1c7&auth_timestamp=1433711170&auth_version=1.0&body_md5=c152f1f6f639e1ee057b6a37f32e9360
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2012-12-31 - buying new stocks\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:10 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:10 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=0b112c4c607b7e32c0186b4da372a626981fad771940ba459bafdcf77667ade1&auth_timestamp=1433711170&auth_version=1.0&body_md5=8d00d7d163c49d2cbbfaf364d582d687
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2013-12-31 - ranking stocks\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:10 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:10 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=86c799476e9e587c48e50de2d4155a6137d89517769a351a8a478af95b27f71c&auth_timestamp=1433711170&auth_version=1.0&body_md5=d88266cc4aaeb4ec308430b7ecab2bda
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2013-12-31 - building portfolio\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:10 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:10 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=b90df7c9fb7d6e9f187ac7b497258237b9abc9ee4fa96e9a5fdb9e9d9cfbc388&auth_timestamp=1433711170&auth_version=1.0&body_md5=e87ea1d0c2840e8bf7d81f6c8b0b2e5a
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2013-12-31 - selling off old stocks\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:10 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:10 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=f6b1a8a5440c12f925b4a75f08c3f001c0b3c58e55dd9a386f61ea1972013c1b&auth_timestamp=1433711170&auth_version=1.0&body_md5=d4219ad95165be691ead679e1330f0ee
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2013-12-31 - buying new stocks\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:10 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:11 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=5de3ddf42f265c51f4ccdef2f972b041d33d8eeac0a6f9d19f380363f24f4625&auth_timestamp=1433711171&auth_version=1.0&body_md5=1e52b3086700702089468e54790b490c
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2014-12-31 - ranking stocks\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:11 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:11 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=498d2f15879b9387835dcaac81ba28e955b60e29eee92b5d817ab267f5c6d6a6&auth_timestamp=1433711171&auth_version=1.0&body_md5=8c89a9a01f053c72bf64afc33c99c2dd
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2014-12-31 - building portfolio\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:11 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:11 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=20925986214c4a93f3952ce6ad43492f84e458d7ce3ee409ae462ecb20c57ce6&auth_timestamp=1433711171&auth_version=1.0&body_md5=975291880cc6ab0682d26b82f636f09a
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2014-12-31 - selling off old stocks\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:11 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:11 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=d8f60b6b7b924d59aef3ad8922784ded60ed7f6ebd0bb4a58e51fe56e57e37a4&auth_timestamp=1433711171&auth_version=1.0&body_md5=6a3a94253c5598e50ee44dcaf1e0c60b
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2014-12-31 - buying new stocks\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:11 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:11 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=fef8b0084a1289a9df9125175a178d8aa7d560dd2e71fd4128745153bfa429cf&auth_timestamp=1433711171&auth_version=1.0&body_md5=63b7c6f98cd3da6e8cb982c5bed5e609
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2015-12-31 - ranking stocks\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:11 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:11 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=3a1b2897a41f6affee0f0ce42770b35e60544bb483cffdb5ce205362422c648c&auth_timestamp=1433711171&auth_version=1.0&body_md5=84073913dff5af825c8ed261d5ca0a0b
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2015-12-31 - building portfolio\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:11 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:11 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=43abfb8cc9547fc4702eb305f0d1b3abe66547b6eb6b224e06b78c84c0039ed1&auth_timestamp=1433711171&auth_version=1.0&body_md5=8e28be3595ed381ad80c033484a570ae
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2015-12-31 - selling off old stocks\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:11 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:11 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=442c728ba51f5a4a6c5dec902b6f4045185adfa31efe6a3864c6a634aee0467e&auth_timestamp=1433711171&auth_version=1.0&body_md5=2537d98c89aee744c5b4bf8b1ff5973b
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Processing
+        2015-12-31 - buying new stocks\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:11 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:12 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=d4e02617da4bd110273bdc4432b2f1289e43d20ac64e3618dace5341e46d3851&auth_timestamp=1433711172&auth_version=1.0&body_md5=7bf6c557607c37b5e4e2ed889c036020
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Building
+        reports - Performance for the period of 2012-12-31\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:12 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:12 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=1730d5293b164e2d9e8cc32f893d3832dddbcfbaeeab04284edf7ed982197a10&auth_timestamp=1433711172&auth_version=1.0&body_md5=0c416115a29832f6772926f0d68164a7
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Building
+        reports - Performance for the period of 2013-12-31\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:12 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:12 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=d39822741f5d9b1429315737f83dfc36fab7cd7e818b695b84aa115ee18d9425&auth_timestamp=1433711172&auth_version=1.0&body_md5=1d1aec4df874cec49606e3a4d41a7567
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Building
+        reports - Performance for the period of 2014-12-31\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:12 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:12 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=05f0125a87e51dc4c2017c4c3f6d161d469c32ebb2592d631e0ba73f348c8a2d&auth_timestamp=1433711172&auth_version=1.0&body_md5=8a89b775e48b076dcd342041f2e129e1
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Building
+        reports - Performance for the period of 2015-12-31\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:12 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:12 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=6643f1ed25775dc9264cb0ea94546f0758c03ba29da863f304a7b0721ef8d72c&auth_timestamp=1433711172&auth_version=1.0&body_md5=860b6eac47b22426d0cea265f73125d9
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Building
+        reports - Aggregated performance\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:12 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:12 GMT
+- request:
+    method: post
+    uri: http://api.pusherapp.com/apps/122120/events?auth_key=5d80c1b3908b01bea17d&auth_signature=f9e439a53ad89394252ff0e9d63902edcf74e1e366b7d602dcc0864fc5f68fff&auth_timestamp=1433711172&auth_version=1.0&body_md5=6382183128693251ff1c4c1460657ce5
+    body:
+      encoding: UTF-8
+      string: '{"name":"update","channels":["fake_puhser_channel"],"data":"{\"message\":\"Building
+        reports - Positions as of 2012-12-31\"}"}'
+    headers:
+      User-Agent:
+      - HTTPClient/1.0 (2.6.0.1, ruby 2.0.0 (2014-11-13))
+      Accept:
+      - '*/*'
+      Date:
+      - Sun, 07 Jun 2015 21:06:12 GMT
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - text/html;charset=utf-8
+      Server:
+      - thin
+      Content-Length:
+      - '2'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{}'
+    http_version: 
+  recorded_at: Sun, 07 Jun 2015 21:06:12 GMT
+recorded_with: VCR 2.9.3

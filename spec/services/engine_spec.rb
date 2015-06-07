@@ -1,16 +1,28 @@
 require 'spec_helper'
 
 describe Engine do
-  describe 'run' do
-    before { set_up_trial_data }
-    let(:engine){ Engine.new({
-      position_count: 5,
-      start_date: '2012-12-31',
-      initial_balance: 1000000,
-      market_cap_floor: 200,
-      market_cap_ceiling: 2000 
-    }).run }
-    before { allow(PricePoint).to receive(:all_periods).and_return(['2012-12-31', '2013-12-31', '2014-12-31', '2015-12-31']) } 
+  describe 'perform' do
+    let(:fake_company) { double(name: 'fake company') }
+
+    before do
+      set_up_trial_data
+      allow_any_instance_of(PricePoint).to receive(:ev).and_return(500)
+      allow_any_instance_of(PricePoint).to receive(:net_ppe).and_return(500)
+      allow_any_instance_of(PricePoint).to receive(:nwc).and_return(500)
+      allow(PricePoint).to receive(:all_periods).and_return(['2012-12-31', '2013-12-31', '2014-12-31', '2015-12-31'])
+      allow(Company).to receive(:where).and_return([fake_company])
+      allow(Pusher).to receive(:trigger)
+    end
+
+    let(:engine){ Engine.new.perform(parameters = {
+        'position_count' => 5,
+        'start_date' => '2012-12-31',
+        'initial_balance' => 1000000,
+        'market_cap_floor' => 200,
+        'market_cap_ceiling' => 2000,
+        'rebalance_frequency' => 'annual'
+      },
+      'fake_puhser_channel') }
 
     it 'creates required number of periods in Portfolio' do
       expect(engine.portfolio.periods.count).to eq(4)

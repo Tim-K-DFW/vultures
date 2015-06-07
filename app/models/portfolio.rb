@@ -22,6 +22,7 @@ class Portfolio
   end
 
   def as_of(report_date)
+    binding.pry if report_date == nil
     PortfolioInspector.new(self, report_date).snapshot
   end
 

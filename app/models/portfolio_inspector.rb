@@ -4,6 +4,7 @@ class PortfolioInspector
   def initialize(portfolio, report_date)
     @portfolio = portfolio
     @report_date = report_date
+    binding.pry if report_date == nil
   end
 
   def snapshot
@@ -20,7 +21,11 @@ class PortfolioInspector
   end
 
   def delisted_positions
-    portfolio.periods[report_date][:positions].select{ |k, v| v.delisted? }
+    begin
+      portfolio.periods[report_date][:positions].select{ |k, v| v.delisted? }
+    rescue
+      binding.pry
+    end
   end
 
   def delisting_proceeds(delisted_positions)

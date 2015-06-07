@@ -14,6 +14,9 @@
           %td Rebalance frequency
           %td.right-aligned annual
         %tr
+          %td # of positions in portfolio
+          %td.right-aligned= number_with_delimiter(@source['parameters']['position_count'])
+        %tr
           %td Market cap floor, $mm
           %td.right-aligned= number_with_delimiter(@source['parameters']['market_cap_floor'])
         %tr

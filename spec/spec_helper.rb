@@ -5,6 +5,8 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'capybara/rails'
 require 'capybara/rspec'
+require 'webmock/rspec'
+require 'vcr'
 
 # load "#{Rails.root}/db/seeds.rb"
 
@@ -16,6 +18,14 @@ require 'capybara/rspec'
 # end with _spec.rb. You can configure this pattern with with the --pattern
 # option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/cassettes'
+  c.hook_into :webmock
+  c.configure_rspec_metadata!
+  c.ignore_localhost = true
+  c.default_cassette_options = { :record => :new_episodes, :erb => true, :match_requests_on => [:host, :method] }
+end
 
 ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|

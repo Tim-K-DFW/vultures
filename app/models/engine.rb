@@ -11,6 +11,7 @@ class Engine
 
   def perform(parameters=nil, pusher_channel)
     @parameters = parameters
+
     @portfolio = Portfolio.new(
       position_count: parameters["position_count"],
       initial_balance: parameters["initial_balance"],
@@ -18,9 +19,12 @@ class Engine
       rebalance_frequency: parameters["rebalance_frequency"],
       pusher_channel: pusher_channel
     )
+
     PricePoint.all_periods(development: parameters['test_run'] == '1' ? true : false, single_period: parameters['single_period'], start_date: parameters['start_date']).each do |period|
+      
       period = period.to_s
       Pusher.trigger(pusher_channel, 'update', { message: "Processing #{period} - ranking stocks" })
+      
       current_market_data = ScoreCalculator.new(
         market_cap_floor: parameters["market_cap_floor"], 
         market_cap_ceiling: parameters["market_cap_ceiling"],
@@ -42,5 +46,6 @@ class Engine
     Result.all.destroy_all
     Result.create(result_string: output)
     Pusher.trigger(pusher_channel, 'update', { progress: 100, message: 'Done!' })
+    self
   end
 end
