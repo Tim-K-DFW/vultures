@@ -6,4 +6,5 @@ Fabricator(:price_point) do
   earnings_yield { 0.15 }
   price { 30.05 }
   delisted { false }
+  ltm_ebit { 500 }
 end

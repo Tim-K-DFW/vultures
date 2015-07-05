@@ -8,6 +8,7 @@ describe Portfolio do
   before do
     fabricate_price_points
     fabricate_price_points('2013-12-31')
+    allow(Pusher).to receive(:trigger)
   end
 
   describe '#as_of' do

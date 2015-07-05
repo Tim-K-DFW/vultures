@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ReportGenerator do
   let(:initial_balance) { 1000000 }
   let(:engine) { double(portfolio: 'fake_response') }
-  let(:generator) { ReportGenerator.new(engine) }
+  let(:generator) { ReportGenerator.new(engine, '') }
 
   describe '#max_drawdown' do
     it 'returns 0 when there were no losses' do
