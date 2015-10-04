@@ -41,8 +41,11 @@ CSV.foreach("db/data - annual since 1993.csv", headers: true, encoding: 'ISO-885
   end
   Company.create(name: row[0], cid: row[2], ticker: row[3])
   counter += 1
-  printf "%-80s %-25s %-22s\n", "Added #{row[0]}", "#{counter} companies total", "#{(Time.now - start_time).round(2)} seconds spent"
+  printf "%-80s %-25s %-22s\n", "Added #{row[0]}", "#{counter} companies total", "#{(Time.now - start_time).round(2)} seconds spent."
 end
+
+PricePoint.where(cid: 'sp500').each { |item| item.update(delisted: true) }
+puts 'All SP500 entries set to DELISTED.'
 
 # 0 company
 # 1 exchange no need
