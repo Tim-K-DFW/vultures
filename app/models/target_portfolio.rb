@@ -33,7 +33,11 @@ class TargetPortfolio
     max_allocation_per_position = @current_portfolio_balance / @position_count
     @market_data.sort_by! {|h| h['total_score'] }
     @position_count.times do |i|
-      positions[@market_data[i]['cid'].to_sym] = this_position = {}
+      begin
+        positions[@market_data[i]['cid'].to_sym] = this_position = {}
+      rescue
+        binding.pry
+      end
       this_position[:price] = @market_data[i]['price']
       this_position[:total_score] = @market_data[i]['total_score']
       this_position[:share_count] = (max_allocation_per_position / this_position[:price]).floor

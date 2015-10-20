@@ -10,8 +10,8 @@
         = bootstrap_form_for @engine, url: '/params_entry', remote: true, layout: :horizontal, label_col: 'col-sm-4', control_col: 'col-sm-3' do |f|
           = f.text_field :position_count, label_class: "left-aligned", label: '# of positions in portfolio', value: '20'
           = f.select :rebalance_frequency, [['annual', 1], ['quarterly', 2], ['monthly', 3]], { label: 'Rebalance frequency'}
-          = f.text_field :market_cap_floor, label: 'Market cap floor, $mm', value: 5000
-          = f.text_field :market_cap_ceiling, label: 'Market cap ceiling, $mm'
+          = f.text_field :market_cap_floor, label: 'Market cap floor, $mm', value: 100
+          = f.text_field :market_cap_ceiling, label: 'Market cap ceiling, $mm', value: 200
           = f.text_field :initial_balance, value: 1000000
           / = f.check_box :background, label: 'Execute in background (significant slowdown)'
           / = f.check_box :test_run, label: 'Test run (only 1993 through 2001)'
